@@ -2,23 +2,25 @@
 
 [LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
-Chemical OCSR evaluates recognition of complete molecular structures from chemical structure images.
+Chemical OCSR evaluates molecular recognition from chemical structure images, and chemical-region detection and recognition from single-page PDF documents.
 
-## Input
+## Input and output
 
-Pre-cropped chemical structure images from patent pages.
+| Mode | Input | Output |
+| --- | --- | --- |
+| Image | A chemical structure image | Machine-readable molecular structures |
+| PDF | A single PDF page | Chemical-region bounding boxes and recognized molecular structures |
 
-## Output
-
-Machine-readable molecular structures preserving atom connectivity, bond information, and stereochemistry.
+Molecular structures preserve atom connectivity, bond information, and stereochemistry.
 
 ## Evaluation
 
-- One-to-one matching of predicted and reference structures within source-page groups.
-- Precision, recall, and F1 for complete structure matches.
-- Preservation of repeated occurrences of the same structure within a page.
+| Layer | Applicable mode | Matching criteria | Metrics |
+| --- | --- | --- | --- |
+| Layout | PDF | One-to-one IoU matching of chemical-region bounding boxes | Precision, recall, F1 |
+| OCSR | Image and PDF | Complete InChIKey matching of recognized and reference molecular structures | Precision, recall, F1 |
 
-Input crop counts and reference structure counts are distinct evaluation units. The task covers recognition from pre-cropped images; whole-page detection and segmentation require separate evaluation.
+PDF mode reports Layout localization and OCSR recognition separately. Layout covers annotated chemical regions; molecular recognition is scored against complete-structure references with valid InChIKeys. Distinct occurrences of the same structure retain their multiplicity.
 
 ## License
 

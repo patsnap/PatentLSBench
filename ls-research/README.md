@@ -1,8 +1,8 @@
-# Hiro LS Research
+# LS Research
 
 [LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
-Hiro LS Research evaluates evidence-based answers to life-sciences research questions.
+LS Research evaluates evidence-based answers to life-sciences research questions.
 
 ## Input
 

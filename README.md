@@ -18,11 +18,11 @@ LSBench evaluates large language models and AI agents on professional life-scien
 
 | Task | Input | Output |
 | --- | --- | --- |
-| [Chemical NER](chemical-ner/README.md) | Whole patent text | Chemical names and molecular structure sets |
-| [Chemical OCSR](chemical-ocsr/README.md) | Pre-cropped chemical structure images | Complete molecular structures |
-| [SAR](sar/README.md) | A complete small-molecule patent | Activity records linked to structures and evidence locations |
+| [Chemical NER](chemical-ner/README.md) | Patent claims or description text | Chemical names and molecular structure sets |
+| [Chemical OCSR](chemical-ocsr/README.md) | Chemical structure image or single-page PDF | Molecular structures; PDF mode also includes chemical-region boxes |
+| [SAR](sar/README.md) | Small-molecule patent materials | Activity records linked to structures and evidence locations |
 | [LCA](lca/README.md) | A patent identifier or drug code | Candidate molecules, relevant patents and supporting evidence |
-| [Hiro LS Research](hiro-ls-research/README.md) | A research question | An answer or report with source citations |
+| [LS Research](ls-research/README.md) | A research question | An answer or report with source citations |
 
 ### Capability expansion
 
@@ -32,11 +32,11 @@ LSBench will expand to integrated chemical-information workflows, sequence and m
 
 | Task | Evaluation criteria |
 | --- | --- |
-| Chemical NER | Patent-level set precision, recall and F1; names and structures scored separately |
-| Chemical OCSR | Page-grouped, one-to-one complete-structure precision, recall and F1; repeated occurrences retained |
-| SAR | Field and relationship precision, recall and F1 after record alignment |
+| Chemical NER | Name-set and molecular structure-set precision, recall and F1, reported separately |
+| Chemical OCSR | Image: InChIKey recognition P/R/F1. PDF: Layout IoU matching and OCSR InChIKey recognition P/R/F1, reported separately |
+| SAR | Field-level and aligned record-group precision, recall and F1 |
 | LCA | Patent relevance, complete-structure hits and evidence support; patent and drug-code modes reported separately |
-| Hiro LS Research | Key-point coverage, factual quality and citation support |
+| LS Research | Key-point coverage, factual quality and citation support |
 
 Each task reports its own metrics, coverage and uncertainty. Models and agents are compared within their respective tracks using consistent materials, tool scope and budgets. See the [evaluation protocol](docs/evaluation-protocol.md) for task-specific definitions.
 
@@ -81,11 +81,11 @@ LSBench 用于评测大语言模型与 AI Agent 的生命科学专业任务能�
 
 | 任务 | 输入 | 交付 |
 | --- | --- | --- |
-| [Chemical NER](chemical-ner/README.zh.md) | 整篇专利文本 | 化学名称与分子结构集合 |
-| [Chemical OCSR](chemical-ocsr/README.zh.md) | 预裁化学结构图 | 完整分子结构 |
-| [SAR](sar/README.zh.md) | 完整小分子专利 | 关联结构与证据位置的活性记录 |
+| [Chemical NER](chemical-ner/README.zh.md) | 专利权利要求或说明书文本 | 化学名称与分子结构集合 |
+| [Chemical OCSR](chemical-ocsr/README.zh.md) | 化学结构图像或单页 PDF | 分子结构；PDF 模式另含化学结构区域框 |
+| [SAR](sar/README.zh.md) | 小分子专利材料 | 关联结构与证据位置的活性记录 |
 | [LCA](lca/README.zh.md) | 专利号或药物代号 | 候选分子、相关专利与支持证据 |
-| [Hiro LS Research](hiro-ls-research/README.zh.md) | 研究问题 | 完整回答或报告及来源引用 |
+| [LS Research](ls-research/README.zh.md) | 研究问题 | 完整回答或报告及来源引用 |
 
 ### 能力扩展
 
@@ -95,11 +95,11 @@ LSBench 将持续扩展化学信息联合交付、序列与修饰档案、大分
 
 | 任务 | 评价对象与指标 |
 | --- | --- |
-| Chemical NER | 专利级集合 Precision、Recall、F1；名称与结构分别计分 |
-| Chemical OCSR | 页内一对一完整结构匹配 Precision、Recall、F1；保留重复结构次数 |
-| SAR | 记录对齐后的字段与关系 Precision、Recall、F1 |
+| Chemical NER | 名称集合与分子结构集合 Precision、Recall、F1，分别报告 |
+| Chemical OCSR | 图像：InChIKey 识别 P/R/F1；PDF：Layout IoU 匹配与 OCSR InChIKey 识别分别报告 P/R/F1 |
+| SAR | 记录对齐后的字段级与记录组 Precision、Recall、F1 |
 | LCA | 专利相关性、完整结构命中与证据支持；专利号和药物代号模式分别报告 |
-| Hiro LS Research | 要点覆盖、事实质量与引用支持 |
+| LS Research | 要点覆盖、事实质量与引用支持 |
 
 各任务分别报告指标、覆盖范围与不确定性。模型与 Agent 按同类型比较，使用一致的任务材料、工具范围与预算。具体口径见[评价协议](docs/evaluation-protocol.zh.md)。
 

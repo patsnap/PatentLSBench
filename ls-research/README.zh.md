@@ -1,8 +1,8 @@
-# Hiro LS Research
+# LS Research
 
 [LSBench](https://github.com/patsnap/LSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
 
-Hiro LS Research 评价对生命科学研究问题给出有证据支持的回答的能力。
+LS Research 评价对生命科学研究问题给出有证据支持的回答的能力。
 
 ## 输入
 

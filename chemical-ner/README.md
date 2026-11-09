@@ -2,24 +2,23 @@
 
 [LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
-Chemical NER evaluates extraction of chemical names and molecular structures from complete patent text.
+Chemical NER evaluates extraction of chemical names and their associated molecular structures from patent claims or description text.
 
 ## Input
 
-The complete text of a chemical patent.
+The claims or description text of a patent.
 
 ## Output
 
-Chemical names and their associated molecular structures, represented as patent-level collections.
+Chemical names and their associated molecular structures identified from the supplied text.
 
 ## Evaluation
 
-- Patent-level set precision, recall, and F1.
-- Separate reporting for chemical names and molecular structures.
-- Deduplication of repeated occurrences of the same structure within a patent.
-- Name-based fallback for reference annotations without a molecular structure.
+- Chemical name-set precision, recall and F1.
+- Molecular structure-set precision, recall and F1, reported separately from name scores.
+- Repeated occurrences of the same name or structure are represented once in the corresponding set.
 
-The evaluation unit is the patent.
+Matching is bounded by the supplied claims or description.
 
 ## License
 

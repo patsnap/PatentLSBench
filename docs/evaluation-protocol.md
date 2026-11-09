@@ -2,33 +2,33 @@
 
 [LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](evaluation-protocol.zh.md)
 
-LSBench evaluates the professional outputs of AI models and agents across five life-sciences tasks. Each task has its own evaluation object, matching criteria, and metrics.
+LSBench evaluates the professional outputs of AI models and agents across its core life-science tasks. Each task has its own evaluation object, matching criteria, and metrics.
 
 ## Tasks and metrics
 
 | Task | Evaluation object | Metrics |
 |---|---|---|
-| [Chemical NER](../chemical-ner/README.md) | Chemical names and molecular structure sets extracted from complete patent text | Patent-level set precision, recall, and F1; names and structures reported separately |
-| [Chemical OCSR](../chemical-ocsr/README.md) | Complete molecular structures recognized from pre-cropped images | Page-grouped one-to-one structure matching precision, recall, and F1; repeated structures retain their multiplicity |
-| [SAR](../sar/README.md) | Disclosed activity records and their links to structures, experiments, and source locations | Record alignment, field-level precision, recall, and F1, and relationship quality |
+| [Chemical NER](../chemical-ner/README.md) | Chemical names and structures from patent claims or description text | Name-set and structure-set precision, recall and F1, reported separately |
+| [Chemical OCSR](../chemical-ocsr/README.md) | Image recognition, or single-page PDF localization and recognition | Image: InChIKey recognition P/R/F1. PDF: separate IoU-based Layout and InChIKey-based OCSR P/R/F1 |
+| [SAR](../sar/README.md) | Disclosed activity records and their links to structures, experiments, and source locations | Field-level and aligned record-group precision, recall and F1 |
 | [LCA](../lca/README.md) | Candidate evidence from a patent identifier, or patent-and-candidate tracing from a drug code | Patent relevance, known-target structure hits, and evidence support; two input modes reported separately |
-| [Hiro LS Research](../hiro-ls-research/README.md) | Complete research answers or reports with source citations | Key-point coverage, factual quality, and citation support |
+| [LS Research](../ls-research/README.md) | Complete research answers or reports with source citations | Key-point coverage, factual quality, and citation support |
 
-Chemical NER evaluates text extraction. Chemical OCSR evaluates recognition from pre-cropped structure images; whole-page detection and segmentation are separate tasks. SAR evaluates disclosed experimental evidence. LCA evaluates candidate identification and evidence-based tracing. Hiro LS Research evaluates the complete answer and its supporting sources.
+Chemical NER evaluates claims or description text. Chemical OCSR supports image-only recognition and single-page PDF Layout plus recognition, with the two PDF layers reported separately. SAR evaluates disclosed experimental records. LCA evaluates candidate identification and evidence-based tracing. LS Research evaluates complete answers and supporting sources.
 
 ## Matching and evidence
 
-- **Chemical NER:** repeated occurrences of the same structure within a patent contribute one item to its structure set. Name-based fallback applies to reference annotations without a molecular structure. Name and structure matching are evaluated separately.
-- **Chemical OCSR:** predictions and references are matched one to one within source-page groups. Structure identity includes atom connectivity, bond information, and stereochemistry. Repeated appearances of the same structure remain separate occurrences.
-- **SAR:** predicted and reference records are aligned by compound and experimental context. Field assessment covers compound identifier, assay endpoint, value, unit, experimental model, target, method, structure identity, activity source location, and structure source location. Relationships preserve the association between the compound, experiment, measurement, and evidence.
+- **Chemical NER:** name and molecular-structure sets are evaluated within the supplied claims or description text. Repeated occurrences of the same item contribute once to the corresponding set; names and structures are reported separately.
+- **Chemical OCSR:** image mode compares complete InChIKeys. PDF mode matches chemical-region boxes one to one using IoU and evaluates molecular identity using complete InChIKeys. Layout and OCSR precision, recall and F1 are reported separately. Distinct occurrences of the same structure retain their multiplicity.
+- **SAR:** predicted and reference records are aligned by compound and experimental context. Field assessment covers compound identifier, assay endpoint, value, unit, experimental model, target, method, structure identity, activity source location, and structure source location. Record alignment and joint field checks preserve the association between the compound, experiment, measurement, and evidence.
 - **LCA:** patent relevance, complete structure identity, activity evidence, source locations, and evidence grades are assessed for the applicable input mode. Evidence grades describe verification depth. Known-target hit metrics apply to the subset with a disclosed reference structure and do not establish exhaustive recall.
-- **Hiro LS Research:** assessment covers whether the response answers the research question, includes the necessary findings, states facts accurately, and cites sources that support the corresponding claims.
+- **LS Research:** assessment covers whether the response answers the research question, includes the necessary findings, states facts accurately, and cites sources that support the corresponding claims.
 
 ## Comparable evaluation conditions
 
 Comparisons use the same task materials, evidence scope, information cutoff, permitted tools, and execution budget. Model and agent submissions are reported within their respective tracks. Reports identify the evaluated system, task and reference versions, matching or rubric criteria, and applicable run conditions.
 
-Each task reports its own evaluation units, metrics, coverage, and limitations. Patent, image, structure, record, and question counts remain distinct. NER names and structures are reported separately; LCA patent-identifier and drug-code results are reported separately. LSBench does not combine different task units into a single overall score.
+Each task reports its own evaluation units, metrics, coverage, and limitations. Patent, page, image, structure, record, and question counts remain distinct. NER names and structures are reported separately; LCA patent-identifier and drug-code results are reported separately. LSBench does not combine different task units into a single overall score.
 
 ## License
 
