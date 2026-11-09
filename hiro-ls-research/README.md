@@ -1,6 +1,6 @@
 # Hiro LS Research
 
-[LSBench](../README.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
 Hiro LS Research evaluates evidence-based answers to life-sciences research questions.
 
@@ -22,4 +22,4 @@ Task-specific reference evidence and rubrics support assessment of the complete 
 
 ## License
 
-See the [project licensing information](../README.md#license) and [MIT License](../LICENSE).
+See the [project licensing information](https://github.com/patsnap/LSBench#license) and [MIT License](../LICENSE).

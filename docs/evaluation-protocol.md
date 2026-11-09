@@ -1,6 +1,6 @@
 # Evaluation Protocol
 
-[LSBench](../README.md) · [简体中文](../README.zh.md)
+[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](evaluation-protocol.zh.md)
 
 LSBench evaluates the professional outputs of AI models and agents across five life-sciences tasks. Each task has its own evaluation object, matching criteria, and metrics.
 
@@ -32,4 +32,4 @@ Each task reports its own evaluation units, metrics, coverage, and limitations. 
 
 ## License
 
-Repository code and project documentation use the [MIT License](../LICENSE). Dataset content, annotations, and accompanying assets follow [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), subject to applicable source-specific terms and third-party rights. See the [project licensing information](../README.md#license).
+Repository code and project documentation use the [MIT License](../LICENSE). Dataset content, annotations, and accompanying assets follow [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), subject to applicable source-specific terms and third-party rights. See the [project licensing information](https://github.com/patsnap/LSBench#license).

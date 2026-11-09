@@ -1,6 +1,6 @@
 # Chemical OCSR
 
-[LSBench](../README.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
 Chemical OCSR evaluates recognition of complete molecular structures from chemical structure images.
 
@@ -22,4 +22,4 @@ Input crop counts and reference structure counts are distinct evaluation units. 
 
 ## License
 
-See the [project licensing information](../README.md#license) and [MIT License](../LICENSE).
+See the [project licensing information](https://github.com/patsnap/LSBench#license) and [MIT License](../LICENSE).

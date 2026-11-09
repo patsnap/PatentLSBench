@@ -1,6 +1,6 @@
 # SAR
 
-[LSBench](../README.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
 SAR evaluates extraction of disclosed structure–activity evidence from complete small-molecule patents.
 
@@ -33,4 +33,4 @@ Field accuracy, relationship coverage and whole-patent completeness are reported
 
 ## License
 
-See the [project licensing information](../README.md#license) and [MIT License](../LICENSE).
+See the [project licensing information](https://github.com/patsnap/LSBench#license) and [MIT License](../LICENSE).

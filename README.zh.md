@@ -4,23 +4,23 @@
 
 <h1 align="center">LSBench</h1>
 
-[English](README.md) | **简体中文**
+[English](https://github.com/patsnap/LSBench#english) | **简体中文**
 
 LSBench 用于评测大语言模型与 AI Agent 的生命科学专业任务能力，涵盖化学实体识别、化学结构识别、结构—活性关系抽取、先导候选分析与科研证据综合。
 
 **生命科学专业任务评测 · 化学信息识别 · 专利证据分析 · 科研问题研究**
 
-[GitHub](https://github.com/patsnap/LSBench) | [🤗 Hugging Face](https://huggingface.co/datasets/PatSnap/lsbench)
+[GitHub](https://github.com/patsnap/LSBench#简体中文) | [🤗 Hugging Face](https://huggingface.co/datasets/PatSnap/lsbench#简体中文)
 
 ## 核心评测任务
 
 | 任务 | 输入 | 交付 |
 | --- | --- | --- |
-| [Chemical NER](chemical-ner/README.md) | 整篇专利文本 | 化学名称与分子结构集合 |
-| [Chemical OCSR](chemical-ocsr/README.md) | 预裁化学结构图 | 完整分子结构 |
-| [SAR](sar/README.md) | 完整小分子专利 | 关联结构与证据位置的活性记录 |
-| [LCA](lca/README.md) | 专利号或药物代号 | 候选分子、相关专利与支持证据 |
-| [Hiro LS Research](hiro-ls-research/README.md) | 研究问题 | 完整回答或报告及来源引用 |
+| [Chemical NER](chemical-ner/README.zh.md) | 整篇专利文本 | 化学名称与分子结构集合 |
+| [Chemical OCSR](chemical-ocsr/README.zh.md) | 预裁化学结构图 | 完整分子结构 |
+| [SAR](sar/README.zh.md) | 完整小分子专利 | 关联结构与证据位置的活性记录 |
+| [LCA](lca/README.zh.md) | 专利号或药物代号 | 候选分子、相关专利与支持证据 |
+| [Hiro LS Research](hiro-ls-research/README.zh.md) | 研究问题 | 完整回答或报告及来源引用 |
 
 ## 能力扩展
 
@@ -36,15 +36,16 @@ LSBench 将持续扩展化学信息联合交付、序列与修饰档案、大分
 | LCA | 专利相关性、完整结构命中与证据支持；专利号和药物代号模式分别报告 |
 | Hiro LS Research | 要点覆盖、事实质量与引用支持 |
 
-各任务分别报告指标、覆盖范围与不确定性。模型与 Agent 按同类型比较，使用一致的任务材料、工具范围与预算。具体口径见[评价协议](docs/evaluation-protocol.md)。
+各任务分别报告指标、覆盖范围与不确定性。模型与 Agent 按同类型比较，使用一致的任务材料、工具范围与预算。具体口径见[评价协议](docs/evaluation-protocol.zh.md)。
 
 ## 目录结构
 
 | 路径 | 内容 |
 | --- | --- |
-| `README.md` / `README.zh.md` | 英文 / 中文总览 |
-| `<task>/README.md` | 各任务的定义、输入输出与评价方式 |
-| `docs/evaluation-protocol.md` | 共同评价条件与任务口径 |
+| `README.md` | 中英文项目总览 |
+| `README.zh.md` | 中文总览 |
+| `<task>/README.md` / `README.zh.md` | 英文 / 中文任务说明 |
+| `docs/evaluation-protocol.md` / `evaluation-protocol.zh.md` | 英文 / 中文评价协议 |
 | `LICENSE` | 代码与项目文档许可证 |
 
 ## 引用
