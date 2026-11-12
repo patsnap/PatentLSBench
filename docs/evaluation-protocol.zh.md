@@ -1,8 +1,8 @@
 # 评价协议
 
-[LSBench](https://github.com/patsnap/LSBench#简体中文) · [English](evaluation-protocol.md) | **简体中文**
+[PatentLSBench](https://github.com/patsnap/PatentLSBench#简体中文) · [English](evaluation-protocol.md) | **简体中文**
 
-LSBench 通过核心生命科学任务评价 AI 模型与 Agent 的专业交付。各任务具有各自的评价对象、匹配标准与指标。
+PatentLSBench 通过核心生命科学任务评价 AI 模型与 Agent 的专业交付。各任务具有各自的评价对象、匹配标准与指标。
 
 ## 任务与指标
 
@@ -28,8 +28,8 @@ Chemical NER 评价权利要求或说明书文本。Chemical OCSR 包含图像�
 
 比较采用相同的任务材料、证据范围、信息截止时点、可用工具与执行预算。模型与 Agent 提交在各自组别内报告。报告明确被评系统、任务与参考版本、匹配或评分量规标准，以及适用的运行条件。
 
-各任务分别报告评价单位、指标、覆盖范围与局限。专利、页面、图像、结构、记录与问题的计数保持区分。NER 的名称与结构分别报告；LCA 的专利号模式与药物代号模式分别报告。LSBench 不将不同任务单位合成为单一总分。
+各任务分别报告评价单位、指标、覆盖范围与局限。专利、页面、图像、结构、记录与问题的计数保持区分。NER 的名称与结构分别报告；LCA 的专利号模式与药物代号模式分别报告。PatentLSBench 不将不同任务单位合成为单一总分。
 
 ## 许可证
 
-仓库代码与项目文档采用 [MIT License](../LICENSE)。数据集内容、标注及配套附件遵循 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)，并受适用的来源特定条款及第三方权利约束。参见[项目许可说明](https://github.com/patsnap/LSBench#许可证)。
+仓库代码与项目文档采用 [MIT License](../LICENSE)。数据集内容、标注及配套附件遵循 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)，并受适用的来源特定条款及第三方权利约束。参见[项目许可说明](https://github.com/patsnap/PatentLSBench#许可证)。

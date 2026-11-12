@@ -1,6 +1,6 @@
 # Chemical OCSR
 
-[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
 Chemical OCSR evaluates molecular recognition from chemical structure images, and chemical-region detection and recognition from single-page PDF documents.
 
@@ -24,4 +24,4 @@ PDF mode reports Layout localization and OCSR recognition separately. Layout cov
 
 ## License
 
-See the [project licensing information](https://github.com/patsnap/LSBench#license) and [MIT License](../LICENSE).
+See the [project licensing information](https://github.com/patsnap/PatentLSBench#license) and [MIT License](../LICENSE).

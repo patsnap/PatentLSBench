@@ -1,8 +1,8 @@
 # Evaluation Protocol
 
-[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench#english) · **English** | [简体中文](evaluation-protocol.zh.md)
 
-LSBench evaluates the professional outputs of AI models and agents across its core life-science tasks. Each task has its own evaluation object, matching criteria, and metrics.
+PatentLSBench evaluates the professional outputs of AI models and agents across its core life-science tasks. Each task has its own evaluation object, matching criteria, and metrics.
 
 ## Tasks and metrics
 
@@ -28,8 +28,8 @@ Chemical NER evaluates claims or description text. Chemical OCSR supports image-
 
 Comparisons use the same task materials, evidence scope, information cutoff, permitted tools, and execution budget. Model and agent submissions are reported within their respective tracks. Reports identify the evaluated system, task and reference versions, matching or rubric criteria, and applicable run conditions.
 
-Each task reports its own evaluation units, metrics, coverage, and limitations. Patent, page, image, structure, record, and question counts remain distinct. NER names and structures are reported separately; LCA patent-identifier and drug-code results are reported separately. LSBench does not combine different task units into a single overall score.
+Each task reports its own evaluation units, metrics, coverage, and limitations. Patent, page, image, structure, record, and question counts remain distinct. NER names and structures are reported separately; LCA patent-identifier and drug-code results are reported separately. PatentLSBench does not combine different task units into a single overall score.
 
 ## License
 
-Repository code and project documentation use the [MIT License](../LICENSE). Dataset content, annotations, and accompanying assets follow [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), subject to applicable source-specific terms and third-party rights. See the [project licensing information](https://github.com/patsnap/LSBench#license).
+Repository code and project documentation use the [MIT License](../LICENSE). Dataset content, annotations, and accompanying assets follow [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/), subject to applicable source-specific terms and third-party rights. See the [project licensing information](https://github.com/patsnap/PatentLSBench#license).

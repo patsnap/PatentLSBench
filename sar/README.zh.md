@@ -1,6 +1,6 @@
 # SAR
 
-[LSBench](https://github.com/patsnap/LSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
 
 SAR 评价从小分子专利中抽取已披露结构—活性证据的能力。
 
@@ -41,4 +41,4 @@ SAR 评价从小分子专利中抽取已披露结构—活性证据的能力。
 
 ## 许可证
 
-参见[项目许可说明](https://github.com/patsnap/LSBench#许可证)和 [MIT License](../LICENSE)。
+参见[项目许可说明](https://github.com/patsnap/PatentLSBench#许可证)和 [MIT License](../LICENSE)。

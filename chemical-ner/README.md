@@ -1,6 +1,6 @@
 # Chemical NER
 
-[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
 Chemical NER evaluates extraction of chemical names and their associated molecular structures from patent claims or description text.
 
@@ -22,4 +22,4 @@ Matching is bounded by the supplied claims or description.
 
 ## License
 
-See the [project licensing information](https://github.com/patsnap/LSBench#license) and [MIT License](../LICENSE).
+See the [project licensing information](https://github.com/patsnap/PatentLSBench#license) and [MIT License](../LICENSE).

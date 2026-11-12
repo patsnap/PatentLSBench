@@ -1,18 +1,18 @@
 <p align="center">
-  <img src="assets/brand-logos.svg" alt="LSBench and PatSnap" width="572">
+  <img src="assets/brand-logos.svg" alt="PatentLSBench and PatSnap" width="704">
 </p>
 
-<h1 align="center">LSBench</h1>
+<h1 align="center">PatentLSBench</h1>
 
 [English](#english) | [简体中文](#简体中文)
 
 ## English
 
-LSBench evaluates large language models and AI agents on professional life-science tasks, including chemical entity recognition, chemical structure recognition, structure–activity extraction, lead candidate analysis, and research synthesis.
+PatentLSBench evaluates large language models and AI agents on life-science tasks grounded in patent evidence, including chemical entity recognition, chemical structure recognition, structure–activity extraction, lead candidate analysis, and research synthesis.
 
-**Life-science task evaluation · Chemical recognition · Patent evidence · Research synthesis**
+**A Patent-Grounded Benchmark for Life Science Models and Agents**
 
-[GitHub](https://github.com/patsnap/LSBench#english) | [🤗 Hugging Face](https://huggingface.co/datasets/PatSnap/lsbench#english)
+[GitHub](https://github.com/patsnap/PatentLSBench#english)
 
 ### Core evaluation tasks
 
@@ -26,7 +26,7 @@ LSBench evaluates large language models and AI agents on professional life-scien
 
 ### Capability expansion
 
-LSBench will expand to integrated chemical-information workflows, sequence and modification profiling, macromolecule sequence–activity evidence, competitive landscape and asset comparison, and agent execution behavior.
+PatentLSBench will expand to integrated chemical-information workflows, sequence and modification profiling, macromolecule sequence–activity evidence, competitive landscape and asset comparison, and agent execution behavior.
 
 ### Evaluation
 
@@ -53,11 +53,11 @@ Each task reports its own metrics, coverage and uncertainty. Models and agents a
 ### Citation
 
 ```bibtex
-@misc{patsnap_lsbench_2026,
-  title  = {LSBench},
+@misc{patsnap_patentlsbench_2026,
+  title  = {PatentLSBench},
   author = {PatSnap},
   year   = {2026},
-  url    = {https://github.com/patsnap/LSBench}
+  url    = {https://github.com/patsnap/PatentLSBench}
 }
 ```
 
@@ -71,11 +71,11 @@ Copyright (c) 2026 PatSnap.
 
 [English](#english) | **简体中文**
 
-LSBench 用于评测大语言模型与 AI Agent 的生命科学专业任务能力，涵盖化学实体识别、化学结构识别、结构—活性关系抽取、先导候选分析与科研证据综合。
+PatentLSBench 以专利证据为基础，评测大语言模型与 AI Agent 的生命科学专业任务能力，涵盖化学实体识别、化学结构识别、结构—活性关系抽取、先导候选分析与科研证据综合。
 
-**生命科学专业任务评测 · 化学信息识别 · 专利证据分析 · 科研问题研究**
+**基于专利证据的生命科学模型与 Agent 评测基准**
 
-[GitHub](https://github.com/patsnap/LSBench#简体中文) | [🤗 Hugging Face](https://huggingface.co/datasets/PatSnap/lsbench#简体中文)
+[GitHub](https://github.com/patsnap/PatentLSBench#简体中文)
 
 ### 核心评测任务
 
@@ -89,7 +89,7 @@ LSBench 用于评测大语言模型与 AI Agent 的生命科学专业任务能�
 
 ### 能力扩展
 
-LSBench 将持续扩展化学信息联合交付、序列与修饰档案、大分子序列—活性证据整理、竞争格局与资产对标，并逐步纳入 Agent 执行行为评价。
+PatentLSBench 将持续扩展化学信息联合交付、序列与修饰档案、大分子序列—活性证据整理、竞争格局与资产对标，并逐步纳入 Agent 执行行为评价。
 
 ### 评价方式
 
@@ -116,11 +116,11 @@ LSBench 将持续扩展化学信息联合交付、序列与修饰档案、大分
 ### 引用
 
 ```bibtex
-@misc{patsnap_lsbench_2026,
-  title  = {LSBench},
+@misc{patsnap_patentlsbench_2026,
+  title  = {PatentLSBench},
   author = {PatSnap},
   year   = {2026},
-  url    = {https://github.com/patsnap/LSBench}
+  url    = {https://github.com/patsnap/PatentLSBench}
 }
 ```
 

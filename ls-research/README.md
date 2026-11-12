@@ -1,6 +1,6 @@
 # LS Research
 
-[LSBench](https://github.com/patsnap/LSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
 LS Research evaluates evidence-based answers to life-sciences research questions.
 
@@ -22,4 +22,4 @@ Task-specific reference evidence and rubrics support assessment of the complete 
 
 ## License
 
-See the [project licensing information](https://github.com/patsnap/LSBench#license) and [MIT License](../LICENSE).
+See the [project licensing information](https://github.com/patsnap/PatentLSBench#license) and [MIT License](../LICENSE).

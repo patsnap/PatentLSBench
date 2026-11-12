@@ -1,6 +1,6 @@
 # LS Research
 
-[LSBench](https://github.com/patsnap/LSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
 
 LS Research 评价对生命科学研究问题给出有证据支持的回答的能力。
 
@@ -22,4 +22,4 @@ LS Research 评价对生命科学研究问题给出有证据支持的回答的�
 
 ## 许可证
 
-参见[项目许可说明](https://github.com/patsnap/LSBench#许可证)和 [MIT License](../LICENSE)。
+参见[项目许可说明](https://github.com/patsnap/PatentLSBench#许可证)和 [MIT License](../LICENSE)。
