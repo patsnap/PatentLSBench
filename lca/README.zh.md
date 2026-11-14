@@ -1,6 +1,6 @@
 # LCA
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
 
 LCA 评价基于证据识别候选分子，以及在药物代号、专利与结构之间进行追溯的能力。
 
@@ -22,4 +22,4 @@ LCA 评价基于证据识别候选分子，以及在药物代号、专利与结�
 
 ## 许可证
 
-参见[项目许可说明](https://github.com/patsnap/PatentLSBench#许可证)和 [MIT License](../LICENSE)。
+参见[项目许可说明](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md#许可证)和 [MIT License](../LICENSE)。

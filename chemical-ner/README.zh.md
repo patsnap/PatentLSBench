@@ -1,6 +1,6 @@
 # Chemical NER
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
 
 Chemical NER 评价从专利权利要求或说明书文本中抽取化学名称及其对应分子结构的能力。
 
@@ -22,4 +22,4 @@ Chemical NER 评价从专利权利要求或说明书文本中抽取化学名称�
 
 ## 许可证
 
-参见[项目许可说明](https://github.com/patsnap/PatentLSBench#许可证)和 [MIT License](../LICENSE)。
+参见[项目许可说明](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md#许可证)和 [MIT License](../LICENSE)。

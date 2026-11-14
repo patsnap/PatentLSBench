@@ -1,6 +1,6 @@
 # Chemical OCSR
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench#简体中文) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
 
 Chemical OCSR 评价化学结构图像中的分子识别能力，以及单页 PDF 中化学结构区域的定位与识别能力。
 
@@ -24,4 +24,4 @@ PDF 模式分别报告 Layout 定位与 OCSR 识别指标。Layout 覆盖已标�
 
 ## 许可证
 
-参见[项目许可说明](https://github.com/patsnap/PatentLSBench#许可证)和 [MIT License](../LICENSE)。
+参见[项目许可说明](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md#许可证)和 [MIT License](../LICENSE)。

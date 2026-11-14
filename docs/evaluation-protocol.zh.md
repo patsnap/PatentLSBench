@@ -1,6 +1,6 @@
 # 评价协议
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench#简体中文) · [English](evaluation-protocol.md) | **简体中文**
+[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](evaluation-protocol.md) | **简体中文**
 
 PatentLSBench 通过核心生命科学任务评价 AI 模型与 Agent 的专业交付。各任务具有各自的评价对象、匹配标准与指标。
 
@@ -32,4 +32,4 @@ Chemical NER 评价权利要求或说明书文本。Chemical OCSR 包含图像�
 
 ## 许可证
 
-仓库代码与项目文档采用 [MIT License](../LICENSE)。数据集内容、标注及配套附件遵循 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)，并受适用的来源特定条款及第三方权利约束。参见[项目许可说明](https://github.com/patsnap/PatentLSBench#许可证)。
+仓库代码与项目文档采用 [MIT License](../LICENSE)。数据集内容、标注及配套附件遵循 [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/)，并受适用的来源特定条款及第三方权利约束。参见[项目许可说明](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md#许可证)。

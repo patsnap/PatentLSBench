@@ -1,6 +1,6 @@
 # LS Research
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench#english) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
 LS Research evaluates evidence-based answers to life-sciences research questions.
 

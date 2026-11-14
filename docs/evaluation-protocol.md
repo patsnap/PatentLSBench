@@ -1,6 +1,6 @@
 # Evaluation Protocol
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench#english) · **English** | [简体中文](evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](evaluation-protocol.zh.md)
 
 PatentLSBench evaluates the professional outputs of AI models and agents across its core life-science tasks. Each task has its own evaluation object, matching criteria, and metrics.
 

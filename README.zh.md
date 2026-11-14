@@ -4,13 +4,13 @@
 
 <h1 align="center">PatentLSBench</h1>
 
-[English](https://github.com/patsnap/PatentLSBench#english) | **简体中文**
+[English](README.md) | **简体中文**
 
 PatentLSBench 以专利证据为基础，评测大语言模型与 AI Agent 的生命科学专业任务能力，涵盖化学实体识别、化学结构识别、结构—活性关系抽取、先导候选分析与科研证据综合。
 
 **基于专利证据的生命科学模型与 Agent 评测基准**
 
-[GitHub](https://github.com/patsnap/PatentLSBench#简体中文)
+[GitHub](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md)
 
 ## 核心评测任务
 
@@ -42,7 +42,7 @@ PatentLSBench 将持续扩展化学信息联合交付、序列与修饰档案、
 
 | 路径 | 内容 |
 | --- | --- |
-| `README.md` | 中英文项目总览 |
+| `README.md` | 英文项目总览 |
 | `README.zh.md` | 中文总览 |
 | `<task>/README.md` / `README.zh.md` | 英文 / 中文任务说明 |
 | `docs/evaluation-protocol.md` / `evaluation-protocol.zh.md` | 英文 / 中文评价协议 |
