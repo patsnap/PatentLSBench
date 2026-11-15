@@ -10,17 +10,25 @@ PatentLSBench evaluates large language models and AI agents on life-science task
 
 **A Patent-Grounded Benchmark for Life Science Models and Agents**
 
-[GitHub](https://github.com/patsnap/PatentLSBench)
+[GitHub](https://github.com/patsnap/PatentLSBench) | [🤗 Chemical NER](https://huggingface.co/datasets/PatSnap/chemical-ner-bench) | [🤗 Chemical OCSR](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench)
 
 ## Core evaluation tasks
 
 | Task | Input | Output |
 | --- | --- | --- |
-| [Chemical NER](chemical-ner/README.md) | Patent claims or description text | Chemical names and molecular structure sets |
+| [Chemical NER](chemical-ner/README.md) | Patent claims or description text | Chemical entities and associated molecular structures |
 | [Chemical OCSR](chemical-ocsr/README.md) | Chemical structure image or single-page PDF | Molecular structures; PDF mode also includes chemical-region boxes |
 | [SAR](sar/README.md) | Small-molecule patent materials | Activity records linked to structures and evidence locations |
 | [LCA](lca/README.md) | A patent identifier or drug code | Candidate molecules, relevant patents and supporting evidence |
 | [LS Research](ls-research/README.md) | A research question | An answer or report with source citations |
+
+## Datasets
+
+Datasets are released and versioned independently. Results are reported for the tasks supported by the evaluated model or agent.
+
+[Chemical NER v1.2.1](chemical-ner/README.md) provides **22 complete claim or description inputs from 11 patents, with 6,334 entity reference mentions** in Chinese, English, Japanese and Korean. The [Hugging Face dataset](https://huggingface.co/datasets/PatSnap/chemical-ner-bench) includes chapter text and entity-level reference answers.
+
+[Chemical OCSR v1.0.0](chemical-ocsr/README.md) provides **50 single-page patent PDFs, 536 chemical regions and 272 valid molecular identifier pairs**, with original crops and MOL references. Explore the [Hugging Face dataset](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench) for page, region and molecular-reference views.
 
 ## Capability expansion
 
@@ -30,7 +38,7 @@ PatentLSBench will expand to integrated chemical-information workflows, sequence
 
 | Task | Evaluation criteria |
 | --- | --- |
-| Chemical NER | Name-set and molecular structure-set precision, recall and F1, reported separately |
+| Chemical NER | Entity-recognition and structure-normalization precision, recall and F1, reported separately with declared matching units |
 | Chemical OCSR | Image: InChIKey recognition P/R/F1. PDF: Layout IoU matching and OCSR InChIKey recognition P/R/F1, reported separately |
 | SAR | Field-level and aligned record-group precision, recall and F1 |
 | LCA | Patent relevance, complete-structure hits and evidence support; patent and drug-code modes reported separately |
