@@ -1,0 +1,6 @@
+*.pdf -text
+*.jpg -text
+*.png -text
+*.mol -text
+*.jsonl -text
+*.parquet -text

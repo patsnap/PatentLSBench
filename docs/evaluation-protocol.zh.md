@@ -2,7 +2,7 @@
 
 [PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](evaluation-protocol.md) | **简体中文**
 
-PatentLSBench 通过核心生命科学任务评价 AI 模型与 Agent 的专业交付。各任务具有各自的评价对象、匹配标准与指标。
+PatentLSBench 通过核心生命科学任务评价 AI 模型与 Agent 的专业交付。各任务具有各自的评价对象、匹配标准与指标。[Chemical NER](../chemical-ner/data/test.jsonl) 与 [Chemical OCSR](../chemical-ocsr/data/README.zh.md) 在 GitHub 和 Hugging Face 均提供数据；SAR、LCA 与 LS Research 当前提供任务定义。
 
 ## 任务与指标
 
@@ -18,8 +18,8 @@ Chemical NER 评价权利要求或说明书文本。Chemical OCSR 包含图像�
 
 ## 匹配与证据
 
-- **Chemical NER：**每份完整权利要求或说明书独立作为输入。实体参考答案支持名称、化学实体类别与边界比对，坐标按章节 HTML 的 Unicode 码点计数；结构归一化使用适用的非空结构参考。报告明确匹配单位与条件、去重、参考纳入及覆盖范围和聚合方式，实体识别与结构归一化结果分别报告。参见 [NER 数据集说明](../chemical-ner/README.zh.md)。
-- **Chemical OCSR：**图像模式按完整 InChIKey 评价结构识别。PDF 模式按 IoU 对化学结构区域框一对一匹配，并按完整 InChIKey 评价分子身份；Layout 与 OCSR 的精确率、召回率、F1 分别报告。不同位置的相同结构保留各自出现次数。
+- **Chemical NER：**每份完整权利要求或说明书独立作为输入。实体参考答案支持名称、化学实体类别与边界比对，坐标按章节 HTML 的 Unicode 码点计数；结构归一化按 [NER 参考说明](../chemical-ner/REFERENCE_NOTES.zh.md)确定参考适用范围；空参考列表不证明原文不存在化学实体。报告明确匹配单位与条件、去重、参考纳入及覆盖范围和聚合方式，实体识别与结构归一化结果分别报告。参见 [NER 数据集说明](../chemical-ner/README.zh.md)。
+- **Chemical OCSR：**图像模式按完整 InChIKey 评价结构识别。PDF 模式使用包内不含嵌入式文本层的单页栅格 PDF，按 IoU 比较化学结构区域框，按完整 InChIKey 比较分子身份；Layout 与 OCSR 的精确率、召回率、F1 分别报告。不同位置的相同结构保留各自出现次数。参考名单与匹配规则见 [OCSR 数据协议](../chemical-ocsr/data/EVALUATION.zh.md)。
 - **SAR：**按化合物与实验条件对齐预测记录与参考记录。字段评价包括化合物编号、实验指标、数值、单位、实验模型、靶点、方法、结构身份、活性来源位置与结构来源位置。通过记录对齐与联合字段核验保留化合物、实验、测量与证据之间的对应关系。
 - **LCA：**按适用输入模式评价专利相关性、完整结构身份、活性证据、来源位置与证据等级。证据等级表示验证深度。已知目标命中指标适用于具有已披露参考结构的子集，不代表完整召回。
 - **LS Research：**评价回答是否回应研究问题、涵盖必要发现、准确陈述事实，并引用支持相应事实陈述的来源。

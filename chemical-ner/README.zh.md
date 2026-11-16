@@ -4,11 +4,11 @@
 
 Chemical NER Bench 提供完整专利权利要求与说明书，用于化学实体识别和结构归一化，并包含实体级评测参考答案及分子结构标识。
 
-[🤗 数据集](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/README.zh.md) · [数据文件](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/tree/main)
+[测试数据](data/test.jsonl) · [字段规范](schema.json) · [参考说明](REFERENCE_NOTES.zh.md) · [🤗 数据集](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/README.zh.md)
 
 ## 数据集概览
 
-**v1.2.1** 包含以下数据：
+**v1.2.2** 包含以下数据：
 
 | 资源 | 数量 |
 | --- | --- |
@@ -30,7 +30,7 @@ Chemical NER Bench 提供完整专利权利要求与说明书，用于化学实�
 
 ## 输入与参考答案
 
-每条记录是一份完整的 `claim`（权利要求章节）或 `description`（说明书章节），各章节独立作为输入。模型输入包含 `record_id`、`publication_number`、`language`、`section` 和 `text` 五个字段。`ground_truth` 为实体级评测参考答案，用于与模型预测比较。
+每条记录是一份完整的 `claim`（权利要求章节）或 `description`（说明书章节），各章节独立作为输入。模型输入包含 `record_id`、`publication_number`、`language`、`section` 和 `text` 五个字段。`ground_truth` 为实体级评测参考答案，用于与模型预测比较；其适用范围、空列表与不可用结构标识的处理见[参考说明](REFERENCE_NOTES.zh.md)。
 
 ## 字段
 
@@ -41,7 +41,7 @@ Chemical NER Bench 提供完整专利权利要求与说明书，用于化学实�
 | `language` | 章节语言代码：CN＝中文，CNT＝繁体中文，EN＝英文，JP＝日文，KR＝韩文。 |
 | `section` | 章节类型：claim＝完整权利要求章节；description＝完整说明书章节。 |
 | `text` | 完整权利要求章节或说明书章节的HTML文本。 |
-| `ground_truth` | 实体级评测参考答案列表，每个对象对应一处实体提及；无参考实体时为[]。 |
+| `ground_truth` | 实体级评测参考答案列表，每个对象对应一处实体提及；发布的参考列表为空时为[]。 |
 
 | 实体字段 | 业务含义 |
 | --- | --- |
@@ -55,7 +55,7 @@ Chemical NER Bench 提供完整专利权利要求与说明书，用于化学实�
 
 `ChemicalCompound` 与 `compound` 都表示化学实体，不表示不同的化学对象子类。`text` 为完整章节 HTML；坐标按全部 HTML 字符的 Unicode 码点计数，使用从 0 开始、左闭右开的 `[start, end)` 区间。
 
-`ground_truth = []` 表示该章节无参考实体。结构字段的空字符串表示无对应结构参考，`mention_form = null` 表示无名称表达类型信息。
+`ground_truth = []` 表示发布的参考列表为空；这三条输入不证明原文不存在化学实体。评价时按[参考说明](REFERENCE_NOTES.zh.md)处理。结构字段的空字符串表示无对应结构参考，`mention_form = null` 表示无名称表达类型信息。
 
 ## 名称表达类型
 
@@ -67,19 +67,40 @@ Chemical NER Bench 提供完整专利权利要求与说明书，用于化学实�
 | `UNAMBIGUOUS_FORMULA` | 结构简式 | 化学身份明确的结构简式或元素符号，例如CH3COOH、Cu；不能确定具体结构的分子式不属于此类。 |
 | `null` | 无类型信息 | 无名称表达类型信息。 |
 
-[完整 Schema](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/raw/schema.json)定义字段类型、可选值与必填规则。
+[完整 Schema](schema.json)定义字段类型、可选值与必填规则。
 
 ## 评价
 
-实体参考答案支持名称、化学实体类别和边界比对；结构归一化使用所选结构字段中适用的非空参考值。名称识别与结构归一化的 Precision、Recall、F1 分别报告。
+实体参考答案支持名称、化学实体类别和边界比对；结构归一化按[参考说明](REFERENCE_NOTES.zh.md)使用所选结构字段中适用的参考值。名称识别与结构归一化的 Precision、Recall、F1 分别报告。
 
 报告须明确匹配单位与条件、去重规则、结构参考纳入条件和覆盖范围、聚合方式及零分母处理。权利要求与说明书结果分开呈现。提及数、名称数和结构数分别计数；结构参考为空的实体仍参与适用的名称识别评价。
 
-具体要求见[评价说明](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/EVALUATION.zh.md)。
+报告要求与参考适用范围见[评价说明](EVALUATION.zh.md)及[参考说明](REFERENCE_NOTES.zh.md)。
 
-## 配置与使用
+## 数据读取
 
-Hugging Face 提供 `default` 配置，`test` split 含 22 条记录。使用具有仓库访问权限的 HF 账号登录：
+GitHub JSONL 与 Hugging Face 数据集包含相同的 22 条核心记录和参考值。Hugging Face 提供 `default` 配置与 `test` split。
+
+### 本地 JSONL
+
+在仓库根目录运行标准库读取器：
+
+```bash
+python chemical-ner/load_records.py chemical-ner/data/test.jsonl
+```
+
+| 路径 | 内容 |
+| --- | --- |
+| `data/test.jsonl` | 完整章节记录与实体参考答案 |
+| `schema.json` | 记录及实体字段规范 |
+| `load_records.py` | 标准库读取器与五字段输入投影 |
+| `EVALUATION.md` / `EVALUATION.zh.md` | 英文 / 中文评价说明 |
+| `REFERENCE_NOTES.md` / `REFERENCE_NOTES.zh.md` | 参考答案适用范围 |
+| `data/LICENSE` | 数据集与参考答案许可证 |
+
+### Hugging Face
+
+使用具有仓库访问权限的 HF 账号登录：
 
 ```bash
 hf auth login
@@ -88,7 +109,7 @@ hf auth login
 ```python
 from datasets import load_dataset
 
-records = load_dataset("PatSnap/chemical-ner-bench", split="test", token=True)
+records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="v1.2.2", token=True)
 input_fields = [
     "record_id", "publication_number", "language", "section", "text"
 ]
@@ -98,6 +119,12 @@ model_input = model_inputs[0]
 
 `ground_truth` 单独用于评价，不进入模型请求。
 
+校验记录与坐标（仅需 Python 标准库）：
+
+```bash
+python chemical-ner/validate_dataset.py chemical-ner/data/test.jsonl
+```
+
 ## 引用与许可证
 
 ```bibtex
@@ -105,9 +132,9 @@ model_input = model_inputs[0]
   title   = {Chemical NER Bench},
   author  = {PatSnap},
   year    = {2026},
-  version = {1.2.1},
+  version = {1.2.2},
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ner-bench}
 }
 ```
 
-数据集与参考答案采用 [CC BY-NC 4.0](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/LICENSE)，第三方材料保留其适用权利。读取器和项目文档采用 [MIT 许可证](../LICENSE)。
+数据集与参考答案采用 [CC BY-NC 4.0](data/LICENSE)，第三方材料保留其适用权利。读取器和项目文档采用 [MIT 许可证](../LICENSE)。

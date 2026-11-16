@@ -2,26 +2,26 @@
 
 [PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
 
-Chemical OCSR evaluates molecular recognition from chemical structure images, and chemical-region detection and recognition from single-page patent PDFs. The Patent Page Chemical Structure Detection and Recognition Benchmark provides exhaustively annotated pages, expert-reviewed region labels and complete-structure molecular references.
+Chemical OCSR evaluates molecular recognition from chemical structure images, and chemical-region detection and recognition from single-page patent PDFs. The dataset provides annotated region boxes, labels, crops and complete-structure molecular references.
 
-[🤗 Dataset](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench) · [Data files](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/tree/main/public-50-pages) · [Data schema](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/schema.json)
+[Data and assets](data/README.md) · [Schema](data/schema.json) · [Evaluation protocol](data/EVALUATION.md) · [🤗 Dataset](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench)
 
 ## Dataset
 
-**v1.0.0** contains 50 complete pages from 50 patent publication numbers. It preserves every annotated chemical region and its associated references on each supplied page.
+**v1.0.0** contains 50 single-page raster PDF inputs from 50 patent publication numbers. The supplied PDFs have no embedded text layer. Each page record links its supplied region annotations and molecular references.
 
 | Resource | Count |
 | --- | ---: |
-| Original single-page PDFs | 50 |
+| Single-page raster PDFs | 50 |
 | Chemical regions and annotated crops | 536 |
-| Original MOL references | 277 |
+| MOL reference files | 277 |
 | Valid canonical-SMILES references | 272 |
 | Valid standard-InChIKey references | 272 |
 | Label dimensions | 9 |
 
 ## Examples
 
-Page preview (the page task uses its original PDF) and original annotated region crops.
+Page preview and supplied chemical-region crops. The page task uses the supplied PDF input.
 
 <img src="assets/AU2022204980A1_page_156.jpg" alt="Patent page preview" width="350">
 
@@ -32,11 +32,11 @@ Page preview (the page task uses its original PDF) and original annotated region
 | Mode | Model input | References |
 | --- | --- | --- |
 | Image | An annotated chemical-region crop | Complete molecular structures on the fixed valid-InChIKey list |
-| PDF | An original single-page patent PDF | All chemical-region bounding boxes; complete-structure molecular references |
+| PDF | A supplied single-page raster PDF | The supplied chemical-region bounding boxes and complete-structure molecular references |
 
-PDFs are the page task's model input; page images provide previews. The image task uses the supplied original annotation crops. Keep image recognition and PDF results separate.
+The supplied PDFs are the page task's model input; page images provide previews. The image task uses the supplied annotated crops. Keep image recognition and PDF results separate.
 
-Layout references include complete structures, substituents, Markush structures and other non-complete chemical expressions. Molecular recognition uses the 272 complete-structure references with valid InChIKeys. All 277 original MOL files are retained; MOL availability and identifier scoring populations are recorded separately.
+Layout references include complete structures, substituents, Markush structures and other non-complete chemical expressions. Molecular recognition uses the 272 complete-structure references with valid InChIKeys. The 277 MOL references and the identifier scoring populations are recorded separately.
 
 Boxes use normalized `[x1, y1, x2, y2]` coordinates with a top-left origin. `coordinate_reference_size` records the original annotation raster size. Normalize predictions against the model's aligned page rendering and preserve the page geometry.
 
@@ -50,7 +50,9 @@ Boxes use normalized `[x1, y1, x2, y2]` coordinates with a top-left origin. `coo
 
 Report Layout and molecular recognition separately, including actual target populations and micro-aggregated counts. Repeated occurrences retain their multiplicity. Preserve components, charge, isotopes, explicit hydrogens and specified stereochemistry when deriving identifiers.
 
-Canonical-SMILES exact match is a supplementary metric evaluated on its own fixed target list. The complete rules, format-specific masks and molecular normalization settings are in [the edition's evaluation protocol](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/EVALUATION.md) and [molecular reference protocol](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/MOLECULAR_GT_PROTOCOL.md).
+Canonical-SMILES exact match is a supplementary metric evaluated on its own fixed target list. The complete rules, format-specific masks and molecular normalization settings are in [evaluation protocol](data/EVALUATION.md) and [molecular reference protocol](data/MOLECULAR_GT_PROTOCOL.md).
+
+Feed only the supplied PDF or crop bytes to the evaluated model. Keep reference boxes, structures and annotation labels in the evaluator.
 
 ## Labels
 
@@ -66,48 +68,77 @@ Canonical-SMILES exact match is a supplementary metric evaluated on its own fixe
 | `scene` | Page context | Reaction scheme, structure table, grouped structures |
 | `image_defects` | Image quality | Blur, broken bonds, text interference |
 
-The original Chinese label values remain unchanged in the data. The dictionary contains 68 values; observed feature coverage counts `(dimension, label)` pairs. Regions can carry multiple features. See the [schema](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/schema.json) and [statistics](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/statistics.json) for definitions and counts.
+The original Chinese label values remain unchanged in the data. The dictionary contains 68 values; observed feature coverage counts `(dimension, label)` pairs. Regions can carry multiple features. See the [schema](data/schema.json) and [statistics](data/statistics.json) for definitions and counts.
 
-## Access
+## Read the data
 
-Hugging Face provides three configurations, each under the `test` split:
+GitHub `chemical-ocsr/data/` and Hugging Face `public-50-pages/` contain the same core JSONL records, reference files and PDF/image/MOL assets. Hugging Face additionally provides embedded-image Parquet views.
+
+### Local files
+
+From the repository root, read and verify the data with Python's standard library:
+
+```bash
+python chemical-ocsr/examples/inspect_dataset.py chemical-ocsr/data --verify
+```
+
+| Path | Contents |
+| --- | --- |
+| `data/pages.jsonl` | Page records and nested region/molecular references |
+| `data/regions.jsonl` | Region records, bounding boxes and labels |
+| `data/ocsr.jsonl` | Molecular references linked by page and region IDs |
+| `data/assets/` | Supplied PDFs, page previews, region crops and MOL files |
+| `data/schema.json`, `data/evaluation_masks.json` | Schema and fixed reference lists |
+| `data/EVALUATION.md`, `data/MOLECULAR_GT_PROTOCOL.md` | Evaluation and molecular reference protocols |
+
+The [data README](data/README.md) describes all files. Asset paths are relative to `data/`. Link `regions.page_id` to `pages.id`, and `ocsr.region_id` to `regions.id`; `ocsr.page_id` also links to `pages.id`.
+
+### Hugging Face
+
+Each configuration provides a `test` split:
 
 | Configuration | Rows | Contents |
 | --- | ---: | --- |
-| `pages` · default | 50 | Page records, nested Layout/OCSR references and page-image previews |
-| `regions` | 536 | Region records, labels and crop previews |
+| `pages` · default | 50 | Page records, nested references and embedded `page_image` previews |
+| `regions` | 536 | Region records, labels and embedded `region_image` crops |
 | `molecules` | 277 | MOL-reference records and nullable standard identifiers |
+
+Sign in with an HF account that has repository access:
+
+```bash
+hf auth login
+```
 
 ```python
 from datasets import load_dataset
 
-pages = load_dataset("PatSnap/chemical-ocsr-bench", "pages", split="test")
-regions = load_dataset("PatSnap/chemical-ocsr-bench", "regions", split="test")
+pages = load_dataset("PatSnap/chemical-ocsr-bench", "pages", split="test", revision="v1.0.0", token=True)
+regions = load_dataset("PatSnap/chemical-ocsr-bench", "regions", split="test", revision="v1.0.0", token=True)
+molecules = load_dataset("PatSnap/chemical-ocsr-bench", "molecules", split="test", revision="v1.0.0", token=True)
 print(pages[0]["id"], regions[0]["region_image"].size)
 ```
 
-Download the original PDFs, crops and MOL files together with their manifests:
+Download the PDF inputs and reference assets:
 
 ```python
+import json
 from pathlib import Path
 from huggingface_hub import snapshot_download
 
 snapshot = snapshot_download(
     repo_id="PatSnap/chemical-ocsr-bench",
     repo_type="dataset",
+    revision="v1.0.0",
+    token=True,
     allow_patterns="public-50-pages/**",
 )
-root = Path(snapshot) / "public-50-pages"
-pdf = root / pages[0]["pdf_path"]
+edition = Path(snapshot) / "public-50-pages"
+with (edition / "pages.jsonl").open(encoding="utf-8") as stream:
+    page = json.loads(next(stream))
+pdf_bytes = (edition / page["pdf_path"]).read_bytes()
 ```
 
-The edition root contains `pages.jsonl`, `regions.jsonl`, `ocsr.jsonl`, `schema.json`, `evaluation_masks.json`, `statistics.json`, normalization resources and the original `assets/`. JSONL paths are relative to this root. The Parquet views retain source fields and add embedded `page_image` or `region_image` previews.
-
-Run the standard-library reader against an extracted edition:
-
-```bash
-python chemical-ocsr/examples/inspect_dataset.py /path/to/public-50-pages --verify
-```
+Use only the PDF bytes or region image as model input; the reference tables are used separately for evaluation.
 
 ## Citation and license
 
@@ -121,4 +152,4 @@ python chemical-ocsr/examples/inspect_dataset.py /path/to/public-50-pages --veri
 }
 ```
 
-The public dataset and annotations use [CC BY-NC 4.0](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/LICENSE.txt). Code and project documentation use the [MIT License](../LICENSE). Third-party source materials retain their applicable rights and terms; normalization resources include their own notices.
+The public dataset and annotations use [CC BY-NC 4.0](data/LICENSE.txt). Code and project documentation use the [MIT License](../LICENSE). Third-party source materials retain their applicable rights and terms; normalization resources include their own notices.

@@ -14,21 +14,21 @@ PatentLSBench 以专利证据为基础，评测大语言模型与 AI Agent 的�
 
 ## 核心评测任务
 
-| 任务 | 输入 | 交付 |
-| --- | --- | --- |
-| [Chemical NER](chemical-ner/README.zh.md) | 专利权利要求或说明书文本 | 化学实体及关联分子结构 |
-| [Chemical OCSR](chemical-ocsr/README.zh.md) | 化学结构图像或单页 PDF | 分子结构；PDF 模式另含化学结构区域框 |
-| [SAR](sar/README.zh.md) | 小分子专利材料 | 关联结构与证据位置的活性记录 |
-| [LCA](lca/README.zh.md) | 专利号或药物代号 | 候选分子、相关专利与支持证据 |
-| [LS Research](ls-research/README.zh.md) | 研究问题 | 完整回答或报告及来源引用 |
+| 任务 | 输入 | 交付 | 资源 |
+| --- | --- | --- | --- |
+| [Chemical NER](chemical-ner/README.zh.md) | 专利权利要求或说明书文本 | 化学实体及关联分子结构 | [测试数据](chemical-ner/data/test.jsonl) |
+| [Chemical OCSR](chemical-ocsr/README.zh.md) | 化学结构图像或单页 PDF | 分子结构；PDF 模式另含化学结构区域框 | [数据与附件](chemical-ocsr/data/README.zh.md) |
+| [SAR](sar/README.zh.md) | 小分子专利材料 | 关联结构与证据位置的活性记录 | 任务定义 |
+| [LCA](lca/README.zh.md) | 专利号或药物代号 | 候选分子、相关专利与支持证据 | 任务定义 |
+| [LS Research](ls-research/README.zh.md) | 研究问题 | 完整回答或报告及来源引用 | 任务定义 |
 
-## 数据集
+## 已提供的数据集
 
-各数据集独立发布和维护版本，模型与 Agent 按其支持的任务分别报告结果。
+Chemical NER 与 Chemical OCSR 在本 GitHub 仓库及 Hugging Face 均提供数据，两端核心记录、参考答案与源附件一致；Hugging Face 另提供 Parquet 视图。SAR、LCA 与 LS Research 当前提供任务定义，数据将按独立版本陆续发布。
 
-[Chemical NER v1.2.1](chemical-ner/README.zh.md) 提供 **11 篇专利的 22 条完整权利要求或说明书输入，以及 6,334 处实体参考答案**，涵盖中文、英文、日文和韩文。[Hugging Face 数据集](https://huggingface.co/datasets/PatSnap/chemical-ner-bench)提供完整章节原文与实体级评测参考答案。
+[Chemical NER v1.2.2](chemical-ner/README.zh.md) 包含 **11 个专利公开号的 22 条完整权利要求或说明书输入，以及 6,334 处实体参考提及**，涵盖中文、英文、日文和韩文。可读取本仓库 [JSONL](chemical-ner/data/test.jsonl)，或使用 [Hugging Face 数据集](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/README.zh.md)。参考答案的适用范围见[参考说明](chemical-ner/REFERENCE_NOTES.zh.md)。
 
-[Chemical OCSR v1.0.0](chemical-ocsr/README.zh.md) 提供 **50 个专利单页 PDF、536 个化学区域与 272 对有效分子标识符**，并保留原始裁图及 MOL 参考。可在 [Hugging Face 数据集](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench)中查看页面、区域与分子参考视图。
+[Chemical OCSR v1.0.0](chemical-ocsr/README.zh.md) 包含 **50 个单页栅格 PDF、536 个已标注化学区域、277 个 MOL 参考，以及 272 对 SMILES/InChIKey 参考**。PDF 不含嵌入式文本层。本仓库[数据目录](chemical-ocsr/data/README.zh.md)提供 PDF 输入、裁图与分子参考；[Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/README.zh.md)提供页面、区域与分子参考视图。
 
 ## 能力扩展
 
@@ -53,6 +53,9 @@ PatentLSBench 将持续扩展化学信息联合交付、序列与修饰档案、
 | `README.md` | 英文项目总览 |
 | `README.zh.md` | 中文总览 |
 | `<task>/README.md` / `README.zh.md` | 英文 / 中文任务说明 |
+| `chemical-ner/data/test.jsonl` | Chemical NER 章节输入与实体参考答案 |
+| `chemical-ner/schema.json`、`load_records.py` | NER 字段规范与标准库读取器 |
+| `chemical-ocsr/data/` | OCSR JSONL、PDF/图像/MOL 附件、Schema 与协议 |
 | `docs/evaluation-protocol.md` / `evaluation-protocol.zh.md` | 英文 / 中文评价协议 |
 | `LICENSE` | 代码与项目文档许可证 |
 

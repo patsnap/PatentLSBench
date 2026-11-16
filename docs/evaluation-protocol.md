@@ -2,7 +2,7 @@
 
 [PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](evaluation-protocol.zh.md)
 
-PatentLSBench evaluates the professional outputs of AI models and agents across its core life-science tasks. Each task has its own evaluation object, matching criteria, and metrics.
+PatentLSBench evaluates the professional outputs of AI models and agents across its core life-science tasks. Each task has its own evaluation object, matching criteria, and metrics. Released data is available for [Chemical NER](../chemical-ner/data/test.jsonl) and [Chemical OCSR](../chemical-ocsr/data/README.md) on GitHub and Hugging Face; SAR, LCA and LS Research currently provide task definitions.
 
 ## Tasks and metrics
 
@@ -18,8 +18,8 @@ Chemical NER evaluates claims or description text. Chemical OCSR supports image-
 
 ## Matching and evidence
 
-- **Chemical NER:** each complete claim or description is an independent input. Entity references support comparison of names, chemical entity classes and boundaries; offsets count Unicode code points in the section HTML. Structure normalization uses eligible nonempty reference identifiers. Reports specify matching units and conditions, deduplication, reference eligibility and coverage, and aggregation; entity-recognition and structure-normalization results are separate. See the [NER dataset documentation](../chemical-ner/README.md).
-- **Chemical OCSR:** image mode compares complete InChIKeys. PDF mode matches chemical-region boxes one to one using IoU and evaluates molecular identity using complete InChIKeys. Layout and OCSR precision, recall and F1 are reported separately. Distinct occurrences of the same structure retain their multiplicity.
+- **Chemical NER:** each complete claim or description is an independent input. Entity references support comparison of names, chemical entity classes and boundaries; offsets count Unicode code points in the section HTML. Structure normalization follows the reference applicability described in the [NER reference notes](../chemical-ner/REFERENCE_NOTES.md). Empty reference lists do not establish chemical-entity absence. Reports specify matching units and conditions, deduplication, reference eligibility and coverage, and aggregation; entity-recognition and structure-normalization results are separate. See the [NER dataset documentation](../chemical-ner/README.md).
+- **Chemical OCSR:** image mode compares complete InChIKeys. PDF mode uses the supplied single-page raster PDFs, which have no embedded text layer, and compares chemical-region boxes by IoU and molecular identity by complete InChIKey. Layout and OCSR precision, recall and F1 are reported separately. Distinct occurrences retain their multiplicity. The [OCSR data protocol](../chemical-ocsr/data/EVALUATION.md) specifies the applicable reference lists and matching rules.
 - **SAR:** predicted and reference records are aligned by compound and experimental context. Field assessment covers compound identifier, assay endpoint, value, unit, experimental model, target, method, structure identity, activity source location, and structure source location. Record alignment and joint field checks preserve the association between the compound, experiment, measurement, and evidence.
 - **LCA:** patent relevance, complete structure identity, activity evidence, source locations, and evidence grades are assessed for the applicable input mode. Evidence grades describe verification depth. Known-target hit metrics apply to the subset with a disclosed reference structure and do not establish exhaustive recall.
 - **LS Research:** assessment covers whether the response answers the research question, includes the necessary findings, states facts accurately, and cites sources that support the corresponding claims.

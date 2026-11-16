@@ -4,11 +4,11 @@
 
 Chemical NER Bench provides complete patent claims and descriptions for chemical entity recognition and structure normalization, with entity-level reference answers and molecular structure identifiers.
 
-[🤗 Dataset](https://huggingface.co/datasets/PatSnap/chemical-ner-bench) · [Data files](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/tree/main)
+[Test data](data/test.jsonl) · [Schema](schema.json) · [Reference notes](REFERENCE_NOTES.md) · [🤗 Dataset](https://huggingface.co/datasets/PatSnap/chemical-ner-bench)
 
 ## Dataset overview
 
-**Version 1.2.1** contains:
+**Version 1.2.2** contains:
 
 | Resource | Count |
 | --- | --- |
@@ -30,7 +30,7 @@ The dataset covers Chinese, English, Japanese and Korean, including Traditional 
 
 ## Input and reference answers
 
-Each record is one complete `claim` or `description` section, evaluated as an independent input. Model inputs contain five fields: `record_id`, `publication_number`, `language`, `section` and `text`. `ground_truth` contains entity-level reference answers for comparison with model predictions.
+Each record is one complete `claim` or `description` section, evaluated as an independent input. Model inputs contain five fields: `record_id`, `publication_number`, `language`, `section` and `text`. `ground_truth` contains entity-level reference answers for comparison with model predictions. The [reference notes](REFERENCE_NOTES.md) define their applicability and the treatment of empty lists and unavailable structure identifiers.
 
 ## Fields
 
@@ -41,7 +41,7 @@ Each record is one complete `claim` or `description` section, evaluated as an in
 | `language` | Section language code: CN = Chinese, CNT = Traditional Chinese, EN = English, JP = Japanese, KR = Korean. |
 | `section` | Section type: claim = complete claims section; description = complete description section. |
 | `text` | HTML text of a complete claims or description section. |
-| `ground_truth` | Entity-level evaluation reference answers, with one object per entity mention; [] when there are no reference entities. |
+| `ground_truth` | Entity-level evaluation reference answers, with one object per entity mention; [] when the released reference list is empty. |
 
 | Entity field | Meaning |
 | --- | --- |
@@ -55,7 +55,7 @@ Each record is one complete `claim` or `description` section, evaluated as an in
 
 `ChemicalCompound` and `compound` both denote chemical entities rather than different chemical object subtypes. Record `text` contains the complete section HTML. Offsets count all HTML characters in Unicode code points using zero-based, half-open `[start, end)` intervals.
 
-`ground_truth = []` indicates a section with no reference entities. Empty structure strings indicate no reference for the corresponding identifier; `mention_form = null` indicates no name-form category information.
+`ground_truth = []` means the released reference list is empty; the three such inputs do not establish that the text contains no chemical entities. Apply the [reference notes](REFERENCE_NOTES.md) when evaluating them. Empty structure strings indicate no reference for the corresponding identifier; `mention_form = null` indicates no name-form category information.
 
 ## Name forms
 
@@ -67,19 +67,40 @@ Each record is one complete `claim` or `description` section, evaluated as an in
 | `UNAMBIGUOUS_FORMULA` | Condensed structural formula | Unambiguous condensed structural formula or chemical element symbol, such as CH3COOH or Cu. Molecular formulas that do not identify a definite structure are excluded. |
 | `null` | No category information | No name-form category information. |
 
-The [schema](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/raw/schema.json) defines field types, allowed values and required fields.
+The [schema](schema.json) defines field types, allowed values and required fields.
 
 ## Evaluation
 
-Entity reference answers support comparison of names, chemical entity classes and boundaries. Structure normalization uses eligible nonempty references in the selected structure field. Report precision, recall and F1 separately for entity recognition and structure normalization.
+Entity reference answers support comparison of names, chemical entity classes and boundaries. Structure normalization uses applicable references in the selected structure field, following the [reference notes](REFERENCE_NOTES.md). Report precision, recall and F1 separately for entity recognition and structure normalization.
 
 Reports specify matching units and conditions, deduplication, structure-reference eligibility and coverage, aggregation and zero-denominator conventions. Present claims and description results separately. Mentions, names and structures are distinct counting units; an entity without a structure reference remains available for applicable entity-recognition evaluation.
 
-See the [evaluation guide](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/EVALUATION.md) for reporting requirements.
+See the [evaluation guide](EVALUATION.md) and [reference notes](REFERENCE_NOTES.md) for reporting requirements and reference applicability.
 
-## Configuration and use
+## Read the data
 
-Hugging Face provides the `default` configuration with 22 records in the `test` split. Sign in with an HF account that has repository access:
+The GitHub JSONL and Hugging Face dataset contain the same 22 core records and reference values. Hugging Face provides the `default` configuration with a `test` split.
+
+### Local JSONL
+
+From the repository root, run the standard-library reader:
+
+```bash
+python chemical-ner/load_records.py chemical-ner/data/test.jsonl
+```
+
+| Path | Contents |
+| --- | --- |
+| `data/test.jsonl` | Complete section records and entity references |
+| `schema.json` | Record and entity field schema |
+| `load_records.py` | Standard-library reader and five-field input projection |
+| `EVALUATION.md` / `EVALUATION.zh.md` | English / Chinese evaluation guide |
+| `REFERENCE_NOTES.md` / `REFERENCE_NOTES.zh.md` | Reference applicability |
+| `data/LICENSE` | Dataset and reference-answer license |
+
+### Hugging Face
+
+Sign in with an HF account that has repository access:
 
 ```bash
 hf auth login
@@ -88,7 +109,7 @@ hf auth login
 ```python
 from datasets import load_dataset
 
-records = load_dataset("PatSnap/chemical-ner-bench", split="test", token=True)
+records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="v1.2.2", token=True)
 input_fields = [
     "record_id", "publication_number", "language", "section", "text"
 ]
@@ -98,6 +119,12 @@ model_input = model_inputs[0]
 
 Use `ground_truth` separately for evaluation, excluding it from model requests.
 
+Validate the supplied records and offsets (standard library only):
+
+```bash
+python chemical-ner/validate_dataset.py chemical-ner/data/test.jsonl
+```
+
 ## Citation and license
 
 ```bibtex
@@ -105,9 +132,9 @@ Use `ground_truth` separately for evaluation, excluding it from model requests.
   title   = {Chemical NER Bench},
   author  = {PatSnap},
   year    = {2026},
-  version = {1.2.1},
+  version = {1.2.2},
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ner-bench}
 }
 ```
 
-The dataset and reference answers use [CC BY-NC 4.0](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/LICENSE), subject to applicable third-party rights. The reader and project documentation use the [MIT License](../LICENSE).
+The dataset and reference answers use [CC BY-NC 4.0](data/LICENSE), subject to applicable third-party rights. The reader and project documentation use the [MIT License](../LICENSE).

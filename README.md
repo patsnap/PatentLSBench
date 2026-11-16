@@ -14,21 +14,21 @@ PatentLSBench evaluates large language models and AI agents on life-science task
 
 ## Core evaluation tasks
 
-| Task | Input | Output |
-| --- | --- | --- |
-| [Chemical NER](chemical-ner/README.md) | Patent claims or description text | Chemical entities and associated molecular structures |
-| [Chemical OCSR](chemical-ocsr/README.md) | Chemical structure image or single-page PDF | Molecular structures; PDF mode also includes chemical-region boxes |
-| [SAR](sar/README.md) | Small-molecule patent materials | Activity records linked to structures and evidence locations |
-| [LCA](lca/README.md) | A patent identifier or drug code | Candidate molecules, relevant patents and supporting evidence |
-| [LS Research](ls-research/README.md) | A research question | An answer or report with source citations |
+| Task | Input | Output | Resources |
+| --- | --- | --- | --- |
+| [Chemical NER](chemical-ner/README.md) | Patent claims or description text | Chemical entities and associated molecular structures | [Test data](chemical-ner/data/test.jsonl) |
+| [Chemical OCSR](chemical-ocsr/README.md) | Chemical structure image or single-page PDF | Molecular structures; PDF mode also includes chemical-region boxes | [Data and assets](chemical-ocsr/data/README.md) |
+| [SAR](sar/README.md) | Small-molecule patent materials | Activity records linked to structures and evidence locations | Task definition |
+| [LCA](lca/README.md) | A patent identifier or drug code | Candidate molecules, relevant patents and supporting evidence | Task definition |
+| [LS Research](ls-research/README.md) | A research question | An answer or report with source citations | Task definition |
 
-## Datasets
+## Available datasets
 
-Datasets are released and versioned independently. Results are reported for the tasks supported by the evaluated model or agent.
+Chemical NER and Chemical OCSR provide data in this GitHub repository and on Hugging Face. Both platforms contain the same core records, references and source assets; Hugging Face also provides Parquet views. SAR, LCA and LS Research currently provide task definitions, with datasets to follow in separate releases.
 
-[Chemical NER v1.2.1](chemical-ner/README.md) provides **22 complete claim or description inputs from 11 patents, with 6,334 entity reference mentions** in Chinese, English, Japanese and Korean. The [Hugging Face dataset](https://huggingface.co/datasets/PatSnap/chemical-ner-bench) includes chapter text and entity-level reference answers.
+[Chemical NER v1.2.2](chemical-ner/README.md) contains **22 complete claim or description inputs from 11 patent publications, with 6,334 entity reference mentions** in Chinese, English, Japanese and Korean. Read the [JSONL](chemical-ner/data/test.jsonl) locally or use the [Hugging Face dataset](https://huggingface.co/datasets/PatSnap/chemical-ner-bench). Reference applicability is described in the [reference notes](chemical-ner/REFERENCE_NOTES.md).
 
-[Chemical OCSR v1.0.0](chemical-ocsr/README.md) provides **50 single-page patent PDFs, 536 chemical regions and 272 valid molecular identifier pairs**, with original crops and MOL references. Explore the [Hugging Face dataset](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench) for page, region and molecular-reference views.
+[Chemical OCSR v1.0.0](chemical-ocsr/README.md) contains **50 single-page raster PDFs, 536 annotated chemical regions, 277 MOL references and 272 paired SMILES/InChIKey references**. The PDFs have no embedded text layer. The [GitHub data directory](chemical-ocsr/data/README.md) includes the PDF inputs, crops and molecular references; [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench) provides page, region and molecular-reference views.
 
 ## Capability expansion
 
@@ -53,6 +53,9 @@ Each task reports its own metrics, coverage and uncertainty. Models and agents a
 | `README.md` | English project overview |
 | `README.zh.md` | Chinese overview |
 | `<task>/README.md` / `README.zh.md` | English / Chinese task documentation |
+| `chemical-ner/data/test.jsonl` | Chemical NER section inputs and entity references |
+| `chemical-ner/schema.json`, `load_records.py` | NER schema and standard-library reader |
+| `chemical-ocsr/data/` | OCSR JSONL records, PDF/image/MOL assets, schema and protocols |
 | `docs/evaluation-protocol.md` / `evaluation-protocol.zh.md` | English / Chinese evaluation protocol |
 | `LICENSE` | Code and project documentation license |
 
