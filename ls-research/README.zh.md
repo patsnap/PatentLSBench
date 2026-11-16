@@ -1,6 +1,6 @@
 # LS Research
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文**
 
 LS Research 评价对生命科学研究问题给出有证据支持的回答的能力。
 

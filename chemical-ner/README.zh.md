@@ -1,131 +1,90 @@
-# Chemical NER
+# Chemical NER Bench
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](../README.zh.md) · [English](README.md) | **简体中文**
 
-Chemical NER Bench 提供完整专利权利要求与说明书，用于化学实体识别和结构归一化，并包含实体级评测参考答案及分子结构标识。
-
-[测试数据](data/test.jsonl) · [字段规范](schema.json) · [参考说明](REFERENCE_NOTES.zh.md) · [🤗 数据集](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/README.zh.md)
+Chemical NER Bench 提供专利权利要求与说明书，用于**化学实体识别和结构归一化**。每条记录包含一份完整章节及所提供的实体参考答案。`test` split 可通过本仓库 [`data/test.jsonl`](data/test.jsonl) 或 [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ner-bench/blob/main/README.zh.md) 获取。
 
 ## 数据集概览
 
-**v1.2.2** 包含以下数据：
-
-| 资源 | 数量 |
-| --- | --- |
+| 项目 | 1.2.2 版 |
+| --- | ---: |
 | 专利公开号 | 11 |
 | 完整章节输入 | 22 |
 | 权利要求 / 说明书输入 | 11 / 11 |
 | 实体参考提及 | 6,334 |
-| 实体参考列表为空的输入 | 3 |
 
-覆盖中文、英语、日语和韩语，中文包括繁体文本。
+输入覆盖中文、英文、日文和韩文，中文包括繁体文本。每份权利要求或说明书独立作为输入；提及数、去重名称数和去重结构数分别计数。
 
-| 语言 | 编码 | 章节数 |
+## 数据字段
+
+| 记录字段 | 类型 | 含义 |
 | --- | --- | --- |
-| 中文 | `CN` | 8 |
-| 繁体中文 | `CNT` | 2 |
-| 英语 | `EN` | 6 |
-| 日语 | `JP` | 4 |
-| 韩语 | `KR` | 2 |
+| `record_id` | string | 章节记录唯一标识 |
+| `publication_number` | string | 来源专利公开号 |
+| `language` | string | `CN`：中文；`CNT`：繁体中文；`EN`：英文；`JP`：日文；`KR`：韩文 |
+| `section` | string | `claim`（权利要求）或 `description`（说明书） |
+| `text` | string | 完整章节 HTML |
+| `ground_truth` | list[object] | 所提供的实体参考提及；空列表为 `[]` |
 
-## 输入与参考答案
-
-每条记录是一份完整的 `claim`（权利要求章节）或 `description`（说明书章节），各章节独立作为输入。模型输入包含 `record_id`、`publication_number`、`language`、`section` 和 `text` 五个字段。`ground_truth` 为实体级评测参考答案，用于与模型预测比较；其适用范围、空列表与不可用结构标识的处理见[参考说明](REFERENCE_NOTES.zh.md)。
-
-## 字段
-
-| 记录字段 | 业务含义 |
-| --- | --- |
-| `record_id` | 章节记录的唯一标识。 |
-| `publication_number` | 本条章节所属专利的公开号。 |
-| `language` | 章节语言代码：CN＝中文，CNT＝繁体中文，EN＝英文，JP＝日文，KR＝韩文。 |
-| `section` | 章节类型：claim＝完整权利要求章节；description＝完整说明书章节。 |
-| `text` | 完整权利要求章节或说明书章节的HTML文本。 |
-| `ground_truth` | 实体级评测参考答案列表，每个对象对应一处实体提及；发布的参考列表为空时为[]。 |
-
-| 实体字段 | 业务含义 |
-| --- | --- |
-| `start` | 实体在本条text中的起始位置，包含该位置；从0开始，按Unicode码点计数，HTML标签字符也计入。 |
-| `end` | 实体在本条text中的结束位置，不包含该位置；与start构成左闭右开区间。 |
-| `text` | 实体在章节中的名称文本。 |
-| `label` | 化学实体类别编码。ChemicalCompound与compound均表示化学实体，不区分化学对象子类。 |
-| `smiles` | 实体结构的SMILES参考表示；空字符串表示无可用的SMILES参考。 |
-| `inchikey` | 实体结构的InChIKey参考标识；空字符串表示无可用的InChIKey参考。 |
-| `mention_form` | 实体名称在文本中的表达类型，取值含义见下表；null表示无名称表达类型信息。 |
-
-`ChemicalCompound` 与 `compound` 都表示化学实体，不表示不同的化学对象子类。`text` 为完整章节 HTML；坐标按全部 HTML 字符的 Unicode 码点计数，使用从 0 开始、左闭右开的 `[start, end)` 区间。
-
-`ground_truth = []` 表示发布的参考列表为空；这三条输入不证明原文不存在化学实体。评价时按[参考说明](REFERENCE_NOTES.zh.md)处理。结构字段的空字符串表示无对应结构参考，`mention_form = null` 表示无名称表达类型信息。
-
-## 名称表达类型
-
-| 取值 | 名称 | 含义 |
+| 实体字段 | 类型 | 含义 |
 | --- | --- | --- |
-| `SYSTEMATIC_NAME` | 全称 | 全称或明确结构名称，包括IUPAC名称及能确定化学身份的短名称。 |
-| `TRIVIAL_COMMON_NAME` | 俗名 | 化合物惯用名、药物通用名或明确指向单一成分的商品名。 |
-| `UNAMBIGUOUS_ABBREVIATION` | 缩写 | 当前语境中化学身份明确的名称缩写，例如DMSO、DCM。研发代码、编号和氨基酸序列符号不属于此类。 |
-| `UNAMBIGUOUS_FORMULA` | 结构简式 | 化学身份明确的结构简式或元素符号，例如CH3COOH、Cu；不能确定具体结构的分子式不属于此类。 |
-| `null` | 无类型信息 | 无名称表达类型信息。 |
+| `start`、`end` | integer | 在本条 `text` 中的起始位置（含）与结束位置（不含） |
+| `text` | string | 参考名称文本 |
+| `label` | string | `ChemicalCompound` 与 `compound` 表示同一化学实体类别 |
+| `smiles` | string | 所提供的 SMILES 参考；`""` 表示不可用 |
+| `inchikey` | string | 所提供的 InChIKey 参考；`""` 表示不可用 |
+| `mention_form` | string 或 null | 下表名称表达类型；null 表示无类型信息 |
 
-[完整 Schema](schema.json)定义字段类型、可选值与必填规则。
+坐标从 0 开始，采用左闭右开的 Unicode 码点区间 `[start, end)`，直接索引**包含标签字符的原始 HTML 字符串**。参考名称可能包含 HTML 标签或首尾空白；去除标签或裁剪名称空白会改变坐标对应关系。
 
-## 评价
+| `mention_form` | 含义 |
+| --- | --- |
+| `SYSTEMATIC_NAME` | 全称或明确结构名称，包括 IUPAC 名称 |
+| `TRIVIAL_COMMON_NAME` | 化合物惯用名、药物通用名或指向单一成分的商品名 |
+| `UNAMBIGUOUS_ABBREVIATION` | 语境中身份明确的化学缩写，如 DMSO；不含研发代码和序列符号 |
+| `UNAMBIGUOUS_FORMULA` | 身份明确的结构简式或元素符号，如 CH3COOH、Cu |
+| `null` | 无名称表达类型信息 |
 
-实体参考答案支持名称、化学实体类别和边界比对；结构归一化按[参考说明](REFERENCE_NOTES.zh.md)使用所选结构字段中适用的参考值。名称识别与结构归一化的 Precision、Recall、F1 分别报告。
+## 快速读取
 
-报告须明确匹配单位与条件、去重规则、结构参考纳入条件和覆盖范围、聚合方式及零分母处理。权利要求与说明书结果分开呈现。提及数、名称数和结构数分别计数；结构参考为空的实体仍参与适用的名称识别评价。
+在仓库根目录使用 Python 标准库读取 JSONL：
 
-报告要求与参考适用范围见[评价说明](EVALUATION.zh.md)及[参考说明](REFERENCE_NOTES.zh.md)。
+```python
+import json
+from pathlib import Path
 
-## 数据读取
-
-GitHub JSONL 与 Hugging Face 数据集包含相同的 22 条核心记录和参考值。Hugging Face 提供 `default` 配置与 `test` split。
-
-### 本地 JSONL
-
-在仓库根目录运行标准库读取器：
-
-```bash
-python chemical-ner/load_records.py chemical-ner/data/test.jsonl
+with Path("chemical-ner/data/test.jsonl").open(encoding="utf-8") as stream:
+    records = [json.loads(line) for line in stream if line.strip()]
+input_fields = ("record_id", "publication_number", "language", "section", "text")
+model_input = {field: records[0][field] for field in input_fields}
+references = records[0]["ground_truth"]
+print(len(records))  # 22
 ```
 
-| 路径 | 内容 |
-| --- | --- |
-| `data/test.jsonl` | 完整章节记录与实体参考答案 |
-| `schema.json` | 记录及实体字段规范 |
-| `load_records.py` | 标准库读取器与五字段输入投影 |
-| `EVALUATION.md` / `EVALUATION.zh.md` | 英文 / 中文评价说明 |
-| `REFERENCE_NOTES.md` / `REFERENCE_NOTES.zh.md` | 参考答案适用范围 |
-| `data/LICENSE` | 数据集与参考答案许可证 |
-
-### Hugging Face
-
-使用具有仓库访问权限的 HF 账号登录：
-
-```bash
-hf auth login
-```
+Hugging Face 提供 **1.2.2** 版，配置为 `default`，split 为 `test`。使用 `hf auth login` 登录后读取：
 
 ```python
 from datasets import load_dataset
 
 records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="v1.2.2", token=True)
-input_fields = [
+model_inputs = records.select_columns([
     "record_id", "publication_number", "language", "section", "text"
-]
-model_inputs = records.select_columns(input_fields)
-model_input = model_inputs[0]
+])
 ```
 
 `ground_truth` 单独用于评价，不进入模型请求。
 
-校验记录与坐标（仅需 Python 标准库）：
+## 评价与参考范围
 
-```bash
-python chemical-ner/validate_dataset.py chemical-ner/data/test.jsonl
-```
+实体识别与结构归一化的 Precision、Recall、F1 分别报告。注明匹配单位、参考纳入条件、去重、归一化、聚合方式及数据版本。权利要求与说明书结果分别呈现；只有评价规则相同的成绩才可直接比较。
 
-## 引用与许可证
+3 条输入的实体参考列表为空，**不代表已确证的无化学实体真负例**。6,334 处参考提及中，**268 处的两个结构字段均为空**，另有 **50 处仅有 SMILES、无 InChIKey**。标识符非空不保证所提供的 SMILES 与 Key 等价，也不保证特定 RDKit 版本可复现该 Key。评价须声明所选结构字段及其适用参考范围；结构参考不可用，不排除该提及参与适用的实体识别评价。
+
+## 许可证
+
+数据集与参考标注采用 [CC BY-NC 4.0](../LICENSE.data)，第三方材料保留适用权利。项目代码与文档采用 [MIT 许可证](../LICENSE)。
+
+## 引用
 
 ```bibtex
 @dataset{patsnap_chemical_ner_bench_2026,
@@ -136,5 +95,3 @@ python chemical-ner/validate_dataset.py chemical-ner/data/test.jsonl
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ner-bench}
 }
 ```
-
-数据集与参考答案采用 [CC BY-NC 4.0](data/LICENSE)，第三方材料保留其适用权利。读取器和项目文档采用 [MIT 许可证](../LICENSE)。

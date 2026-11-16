@@ -1,6 +1,6 @@
 # LCA
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](README.zh.md)
 
 LCA evaluates evidence-based identification of candidate molecules and tracing between drug codes, patents, and structures.
 

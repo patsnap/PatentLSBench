@@ -1,131 +1,90 @@
-# Chemical NER
+# Chemical NER Bench
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[PatentLSBench](../README.md) · **English** | [简体中文](README.zh.md)
 
-Chemical NER Bench provides complete patent claims and descriptions for chemical entity recognition and structure normalization, with entity-level reference answers and molecular structure identifiers.
-
-[Test data](data/test.jsonl) · [Schema](schema.json) · [Reference notes](REFERENCE_NOTES.md) · [🤗 Dataset](https://huggingface.co/datasets/PatSnap/chemical-ner-bench)
+Chemical NER Bench provides patent claims and descriptions for **chemical entity recognition and structure normalization**. Each record contains one complete section and its supplied entity references. The `test` split is available in [`data/test.jsonl`](data/test.jsonl) and on [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ner-bench).
 
 ## Dataset overview
 
-**Version 1.2.2** contains:
-
-| Resource | Count |
-| --- | --- |
+| Property | Version 1.2.2 |
+| --- | ---: |
 | Patent publication numbers | 11 |
 | Complete section inputs | 22 |
 | Claims / description inputs | 11 / 11 |
-| Entity reference mentions | 6,334 |
-| Inputs with an empty entity reference list | 3 |
+| Entity-reference mentions | 6,334 |
 
-The dataset covers Chinese, English, Japanese and Korean, including Traditional Chinese text.
+Inputs cover Chinese, English, Japanese and Korean, including Traditional Chinese. Each claim or description section is an independent input; mention, distinct-name and distinct-structure counts are different units.
 
-| Language | Code | Sections |
+## Data fields
+
+| Record field | Type | Meaning |
 | --- | --- | --- |
-| Chinese | `CN` | 8 |
-| Traditional Chinese | `CNT` | 2 |
-| English | `EN` | 6 |
-| Japanese | `JP` | 4 |
-| Korean | `KR` | 2 |
+| `record_id` | string | Unique section-record identifier |
+| `publication_number` | string | Source patent publication number |
+| `language` | string | `CN`: Chinese; `CNT`: Traditional Chinese; `EN`: English; `JP`: Japanese; `KR`: Korean |
+| `section` | string | `claim` or `description` |
+| `text` | string | Complete section HTML |
+| `ground_truth` | list[object] | Supplied entity-reference mentions; an empty list is `[]` |
 
-## Input and reference answers
-
-Each record is one complete `claim` or `description` section, evaluated as an independent input. Model inputs contain five fields: `record_id`, `publication_number`, `language`, `section` and `text`. `ground_truth` contains entity-level reference answers for comparison with model predictions. The [reference notes](REFERENCE_NOTES.md) define their applicability and the treatment of empty lists and unavailable structure identifiers.
-
-## Fields
-
-| Record field | Meaning |
-| --- | --- |
-| `record_id` | Unique identifier for a section record. |
-| `publication_number` | Publication number of the patent containing this section. |
-| `language` | Section language code: CN = Chinese, CNT = Traditional Chinese, EN = English, JP = Japanese, KR = Korean. |
-| `section` | Section type: claim = complete claims section; description = complete description section. |
-| `text` | HTML text of a complete claims or description section. |
-| `ground_truth` | Entity-level evaluation reference answers, with one object per entity mention; [] when the released reference list is empty. |
-
-| Entity field | Meaning |
-| --- | --- |
-| `start` | Inclusive, zero-based start offset of the entity in this record's text, measured in Unicode code points including HTML markup characters. |
-| `end` | Exclusive end offset of the entity in this record's text, forming a half-open interval with start. |
-| `text` | Entity name text in the section. |
-| `label` | Chemical entity class code. ChemicalCompound and compound both denote chemical entities and do not distinguish chemical object subtypes. |
-| `smiles` | SMILES representation of the entity's reference structure; an empty string indicates no available SMILES reference. |
-| `inchikey` | InChIKey identifier of the entity's reference structure; an empty string indicates no available InChIKey reference. |
-| `mention_form` | How the entity name is expressed in the text; values are defined below. null indicates no name-form category information. |
-
-`ChemicalCompound` and `compound` both denote chemical entities rather than different chemical object subtypes. Record `text` contains the complete section HTML. Offsets count all HTML characters in Unicode code points using zero-based, half-open `[start, end)` intervals.
-
-`ground_truth = []` means the released reference list is empty; the three such inputs do not establish that the text contains no chemical entities. Apply the [reference notes](REFERENCE_NOTES.md) when evaluating them. Empty structure strings indicate no reference for the corresponding identifier; `mention_form = null` indicates no name-form category information.
-
-## Name forms
-
-| Value | Name | Meaning |
+| Entity field | Type | Meaning |
 | --- | --- | --- |
-| `SYSTEMATIC_NAME` | Full name | Full or explicit structural name, including IUPAC names and short names with a definite chemical identity. |
-| `TRIVIAL_COMMON_NAME` | Common name | Conventional chemical name, generic drug name, or trade name identifying a single ingredient. |
-| `UNAMBIGUOUS_ABBREVIATION` | Abbreviation | Name abbreviation with an unambiguous chemical identity in context, such as DMSO or DCM. Development codes, identifiers, and amino-acid sequence symbols are excluded. |
-| `UNAMBIGUOUS_FORMULA` | Condensed structural formula | Unambiguous condensed structural formula or chemical element symbol, such as CH3COOH or Cu. Molecular formulas that do not identify a definite structure are excluded. |
-| `null` | No category information | No name-form category information. |
+| `start`, `end` | integer | Inclusive start and exclusive end in the record's `text` |
+| `text` | string | Reference name text |
+| `label` | string | `ChemicalCompound` and `compound` denote the same chemical-entity category |
+| `smiles` | string | Supplied SMILES reference; `""` means unavailable |
+| `inchikey` | string | Supplied InChIKey reference; `""` means unavailable |
+| `mention_form` | string or null | Name-form category below; null means no category information |
 
-The [schema](schema.json) defines field types, allowed values and required fields.
+Offsets are zero-based, half-open Unicode code-point intervals `[start, end)` in the **original HTML string, including markup characters**. Reference names can contain markup or surrounding whitespace. Removing HTML or trimming names changes coordinate alignment.
 
-## Evaluation
+| `mention_form` | Meaning |
+| --- | --- |
+| `SYSTEMATIC_NAME` | Full or explicit structural name, including IUPAC names |
+| `TRIVIAL_COMMON_NAME` | Common chemical name, generic drug name or single-ingredient trade name |
+| `UNAMBIGUOUS_ABBREVIATION` | Chemical abbreviation unambiguous in context, such as DMSO; excludes development codes and sequence symbols |
+| `UNAMBIGUOUS_FORMULA` | Unambiguous condensed structural formula or element symbol, such as CH3COOH or Cu |
+| `null` | No name-form category information |
 
-Entity reference answers support comparison of names, chemical entity classes and boundaries. Structure normalization uses applicable references in the selected structure field, following the [reference notes](REFERENCE_NOTES.md). Report precision, recall and F1 separately for entity recognition and structure normalization.
+## Quick start
 
-Reports specify matching units and conditions, deduplication, structure-reference eligibility and coverage, aggregation and zero-denominator conventions. Present claims and description results separately. Mentions, names and structures are distinct counting units; an entity without a structure reference remains available for applicable entity-recognition evaluation.
+Read the JSONL from the repository root using Python's standard library:
 
-See the [evaluation guide](EVALUATION.md) and [reference notes](REFERENCE_NOTES.md) for reporting requirements and reference applicability.
+```python
+import json
+from pathlib import Path
 
-## Read the data
-
-The GitHub JSONL and Hugging Face dataset contain the same 22 core records and reference values. Hugging Face provides the `default` configuration with a `test` split.
-
-### Local JSONL
-
-From the repository root, run the standard-library reader:
-
-```bash
-python chemical-ner/load_records.py chemical-ner/data/test.jsonl
+with Path("chemical-ner/data/test.jsonl").open(encoding="utf-8") as stream:
+    records = [json.loads(line) for line in stream if line.strip()]
+input_fields = ("record_id", "publication_number", "language", "section", "text")
+model_input = {field: records[0][field] for field in input_fields}
+references = records[0]["ground_truth"]
+print(len(records))  # 22
 ```
 
-| Path | Contents |
-| --- | --- |
-| `data/test.jsonl` | Complete section records and entity references |
-| `schema.json` | Record and entity field schema |
-| `load_records.py` | Standard-library reader and five-field input projection |
-| `EVALUATION.md` / `EVALUATION.zh.md` | English / Chinese evaluation guide |
-| `REFERENCE_NOTES.md` / `REFERENCE_NOTES.zh.md` | Reference applicability |
-| `data/LICENSE` | Dataset and reference-answer license |
-
-### Hugging Face
-
-Sign in with an HF account that has repository access:
-
-```bash
-hf auth login
-```
+Hugging Face provides version **1.2.2** in the `default` configuration and `test` split. After signing in with `hf auth login`:
 
 ```python
 from datasets import load_dataset
 
 records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="v1.2.2", token=True)
-input_fields = [
+model_inputs = records.select_columns([
     "record_id", "publication_number", "language", "section", "text"
-]
-model_inputs = records.select_columns(input_fields)
-model_input = model_inputs[0]
+])
 ```
 
-Use `ground_truth` separately for evaluation, excluding it from model requests.
+Keep `ground_truth` separate from model requests.
 
-Validate the supplied records and offsets (standard library only):
+## Evaluation and reference scope
 
-```bash
-python chemical-ner/validate_dataset.py chemical-ner/data/test.jsonl
-```
+Report entity-recognition and structure-normalization precision, recall and F1 separately. State the matching unit, reference eligibility, deduplication, normalization, aggregation and dataset revision. Present claims and description results separately; compare scores only under the same evaluation rules.
 
-## Citation and license
+Three inputs have empty entity-reference lists; these are **not certified chemical-free negative examples**. Among the 6,334 reference mentions, **268 have both structure fields empty** and **50 have SMILES without an InChIKey**. Nonempty identifiers do not guarantee that the supplied SMILES and Key are equivalent or that a particular RDKit version reproduces the Key. Declare the chosen structure field and its eligible population; unavailable structure references do not remove mentions from applicable entity-recognition evaluation.
+
+## License
+
+Dataset and reference annotations: [CC BY-NC 4.0](../LICENSE.data), subject to applicable third-party rights. Project code and documentation: [MIT](../LICENSE).
+
+## Citation
 
 ```bibtex
 @dataset{patsnap_chemical_ner_bench_2026,
@@ -136,5 +95,3 @@ python chemical-ner/validate_dataset.py chemical-ner/data/test.jsonl
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ner-bench}
 }
 ```
-
-The dataset and reference answers use [CC BY-NC 4.0](data/LICENSE), subject to applicable third-party rights. The reader and project documentation use the [MIT License](../LICENSE).

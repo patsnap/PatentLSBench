@@ -1,149 +1,85 @@
 # Chemical OCSR
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench) · **English** | [简体中文](README.zh.md) · [Evaluation Protocol](../docs/evaluation-protocol.md)
+[PatentLSBench](../README.md) · **English** | [简体中文](README.zh.md)
 
-Chemical OCSR evaluates molecular recognition from chemical structure images, and chemical-region detection and recognition from single-page patent PDFs. The dataset provides annotated region boxes, labels, crops and complete-structure molecular references.
+Chemical OCSR evaluates molecular recognition from annotated region crops, and chemical-region detection and recognition from single-page patent image PDFs. The **v1.0.0 data release** contains 50 pages from 50 patent publication numbers and is also available on [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench).
 
-[Data and assets](data/README.md) · [Schema](data/schema.json) · [Evaluation protocol](data/EVALUATION.md) · [🤗 Dataset](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench)
-
-## Dataset
-
-**v1.0.0** contains 50 single-page raster PDF inputs from 50 patent publication numbers. The supplied PDFs have no embedded text layer. Each page record links its supplied region annotations and molecular references.
+## Dataset overview
 
 | Resource | Count |
 | --- | ---: |
-| Single-page raster PDFs | 50 |
-| Chemical regions and annotated crops | 536 |
-| MOL reference files | 277 |
-| Valid canonical-SMILES references | 272 |
-| Valid standard-InChIKey references | 272 |
-| Label dimensions | 9 |
+| Single-page image PDFs | 50 |
+| Chemical regions and crops | 536 |
+| Original MOL references | 277 |
+| Canonical SMILES / standard InChIKey references | 272 each |
 
-## Examples
+[`data/test.jsonl`](data/test.jsonl) has one page per line. [`assets/`](assets/) contains the 50 PDFs, 50 previews, 536 crops and 277 MOL files. PDFs are raster-only page images without a text layer; previews are for inspection.
 
-Page preview and supplied chemical-region crops. The page task uses the supplied PDF input.
+## Load the data
 
-<img src="assets/AU2022204980A1_page_156.jpg" alt="Patent page preview" width="350">
-
-<img src="assets/img-dc-2240.jpg" alt="Markush region" width="260"> <img src="assets/img-dc-1642.jpg" alt="Complete molecular structure" width="260">
-
-## Input and references
-
-| Mode | Model input | References |
-| --- | --- | --- |
-| Image | An annotated chemical-region crop | Complete molecular structures on the fixed valid-InChIKey list |
-| PDF | A supplied single-page raster PDF | The supplied chemical-region bounding boxes and complete-structure molecular references |
-
-The supplied PDFs are the page task's model input; page images provide previews. The image task uses the supplied annotated crops. Keep image recognition and PDF results separate.
-
-Layout references include complete structures, substituents, Markush structures and other non-complete chemical expressions. Molecular recognition uses the 272 complete-structure references with valid InChIKeys. The 277 MOL references and the identifier scoring populations are recorded separately.
-
-Boxes use normalized `[x1, y1, x2, y2]` coordinates with a top-left origin. `coordinate_reference_size` records the original annotation raster size. Normalize predictions against the model's aligned page rendering and preserve the page geometry.
-
-## Evaluation
-
-| Layer | Matching criteria | Metrics |
-| --- | --- | --- |
-| Layout · PDF | One-to-one bounding-box matching; this edition uses IoU ≥ 0.5 | Precision, recall, F1 |
-| OCSR · image and PDF | Full standard-InChIKey equality on the fixed Key-reference population | Precision, recall, F1 |
-| Joint page recovery · supplementary | Correct molecular identity under the fixed Layout assignment | Recovered targets / fixed molecular targets |
-
-Report Layout and molecular recognition separately, including actual target populations and micro-aggregated counts. Repeated occurrences retain their multiplicity. Preserve components, charge, isotopes, explicit hydrogens and specified stereochemistry when deriving identifiers.
-
-Canonical-SMILES exact match is a supplementary metric evaluated on its own fixed target list. The complete rules, format-specific masks and molecular normalization settings are in [evaluation protocol](data/EVALUATION.md) and [molecular reference protocol](data/MOLECULAR_GT_PROTOCOL.md).
-
-Feed only the supplied PDF or crop bytes to the evaluated model. Keep reference boxes, structures and annotation labels in the evaluator.
-
-## Labels
-
-| Field | Dimension | Examples |
-| --- | --- | --- |
-| `type` | Structure type | Complete structure, substituent, Markush structure |
-| `chemical_family` | Chemical family | Organic, peptide, nucleic-acid, coordination/organometallic |
-| `component_features` | Component form | Salt/ion pair, hydrate, solvate |
-| `atom_bond_features` | Atom and bond features | Isotope, charge, coordination bond |
-| `stereo_features` | Stereochemical notation | Wedge bonds, double-bond geometry, axial chirality |
-| `notation_features` | Abbreviations and generalized notation | Fixed abbreviation, variable group, repeat notation |
-| `topology_features` | Ring topology | Macrocycle, fused, spiro, bridged |
-| `scene` | Page context | Reaction scheme, structure table, grouped structures |
-| `image_defects` | Image quality | Blur, broken bonds, text interference |
-
-The original Chinese label values remain unchanged in the data. The dictionary contains 68 values; observed feature coverage counts `(dimension, label)` pairs. Regions can carry multiple features. See the [schema](data/schema.json) and [statistics](data/statistics.json) for definitions and counts.
-
-## Read the data
-
-GitHub `chemical-ocsr/data/` and Hugging Face `public-50-pages/` contain the same core JSONL records, reference files and PDF/image/MOL assets. Hugging Face additionally provides embedded-image Parquet views.
-
-### Local files
-
-From the repository root, read and verify the data with Python's standard library:
-
-```bash
-python chemical-ocsr/examples/inspect_dataset.py chemical-ocsr/data --verify
-```
-
-| Path | Contents |
-| --- | --- |
-| `data/pages.jsonl` | Page records and nested region/molecular references |
-| `data/regions.jsonl` | Region records, bounding boxes and labels |
-| `data/ocsr.jsonl` | Molecular references linked by page and region IDs |
-| `data/assets/` | Supplied PDFs, page previews, region crops and MOL files |
-| `data/schema.json`, `data/evaluation_masks.json` | Schema and fixed reference lists |
-| `data/EVALUATION.md`, `data/MOLECULAR_GT_PROTOCOL.md` | Evaluation and molecular reference protocols |
-
-The [data README](data/README.md) describes all files. Asset paths are relative to `data/`. Link `regions.page_id` to `pages.id`, and `ocsr.region_id` to `regions.id`; `ocsr.page_id` also links to `pages.id`.
-
-### Hugging Face
-
-Each configuration provides a `test` split:
-
-| Configuration | Rows | Contents |
-| --- | ---: | --- |
-| `pages` · default | 50 | Page records, nested references and embedded `page_image` previews |
-| `regions` | 536 | Region records, labels and embedded `region_image` crops |
-| `molecules` | 277 | MOL-reference records and nullable standard identifiers |
-
-Sign in with an HF account that has repository access:
-
-```bash
-hf auth login
-```
-
-```python
-from datasets import load_dataset
-
-pages = load_dataset("PatSnap/chemical-ocsr-bench", "pages", split="test", revision="v1.0.0", token=True)
-regions = load_dataset("PatSnap/chemical-ocsr-bench", "regions", split="test", revision="v1.0.0", token=True)
-molecules = load_dataset("PatSnap/chemical-ocsr-bench", "molecules", split="test", revision="v1.0.0", token=True)
-print(pages[0]["id"], regions[0]["region_image"].size)
-```
-
-Download the PDF inputs and reference assets:
+Run from the repository root. Every asset path in a record is relative to `chemical-ocsr/`, including paths inside nested references.
 
 ```python
 import json
 from pathlib import Path
-from huggingface_hub import snapshot_download
 
-snapshot = snapshot_download(
-    repo_id="PatSnap/chemical-ocsr-bench",
-    repo_type="dataset",
-    revision="v1.0.0",
-    token=True,
-    allow_patterns="public-50-pages/**",
-)
-edition = Path(snapshot) / "public-50-pages"
-with (edition / "pages.jsonl").open(encoding="utf-8") as stream:
-    page = json.loads(next(stream))
-pdf_bytes = (edition / page["pdf_path"]).read_bytes()
+root = Path("chemical-ocsr")
+with (root / "data/test.jsonl").open(encoding="utf-8") as file:
+    page = json.loads(next(file))
+
+pdf_bytes = (root / page["pdf_path"]).read_bytes()
+region = page["layout_gt"][0]
+crop_bytes = (root / region["image"]).read_bytes()
+print(page["id"], len(pdf_bytes), region["region_id"], len(crop_bytes))
 ```
 
-Use only the PDF bytes or region image as model input; the reference tables are used separately for evaluation.
+Use PDF bytes for the page task or crop bytes for image recognition. `layout_gt` and `ocsr_gt` are evaluator references.
 
-## Citation and license
+The Hugging Face Parquet view pins data revision `v1.0.0`; `token=True` uses your HF login. Evaluation-profile links below point to the current `main` documentation.
+
+```python
+from datasets import load_dataset
+
+regions = load_dataset(
+    "PatSnap/chemical-ocsr-bench", "regions", split="test",
+    revision="v1.0.0", token=True,
+)
+print(regions[0]["id"], regions[0]["region_image"].size)
+```
+
+## Data fields
+
+| Field | Contents |
+| --- | --- |
+| `id`, `patent_no`, `page_no` | Page ID, publication number and page number in the source patent; each supplied PDF itself has one page |
+| `pdf_path`, `preview_image` | PDF input and preview paths |
+| `coordinate_reference_size` | Annotation-raster `[width, height]` |
+| `layout_count`, `ocsr_count` | Region count and original-MOL-reference count, not identifier-scoring denominators |
+| `layout_gt` | `region_id`, normalized `bbox`, crop `image`, and `labels` |
+| `ocsr_gt` | `region_id`, `molfile`, nullable `smiles` and `inchikey`; joined to Layout by `region_id` |
+
+Boxes are `[x1,y1,x2,y2]` in `[0,1]` with a top-left origin. Normalize predictions against an aligned rendering of the supplied page.
+
+Labels retain their Chinese values and support multiple values in nine fields: `type`, `chemical_family`, `component_features`, `atom_bond_features`, `stereo_features`, `notation_features`, `topology_features`, `scene`, `image_defects`. `[]` means assessed with no listed feature; `null` means unavailable.
+
+## Evaluation
+
+**Profile: `region-aligned-v1`.** See the [evaluation rules](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/EVALUATION.md) and [molecular reference rules](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/MOLECULAR_GT_PROTOCOL.md) for details.
+
+- **Image:** associate each prediction with its input crop. Evaluate molecular recognition; do not pool answers across crops.
+- **PDF:** match boxes one to one at **IoU ≥ 0.5**, first maximizing match count, then total IoU; resolve ties by GT `region_id` and stable prediction order. Fix this assignment before molecular comparison; never rematch using SMILES or Keys. All 536 regions participate in Layout P/R/F1.
+- **Molecular:** report canonical-SMILES and full standard-InChIKey P/R/F1 separately. Each uses its published non-null reference population, currently 272. One eligible target can yield at most one TP. Every additional, duplicate, invalid or incorrect nonempty candidate is FP; an unrecovered eligible target is FN. Molecular candidates in unmatched PDF boxes are FP. Predictions matched to regions without an applicable reference are ignored for that molecular metric, while Layout still applies. Empty output or refusal leaves FN without inventing an FP.
+
+Noncomplete structures are evaluated only for Layout. Among 296 regions tagged complete, 277 have MOL references and 272 have supported identifiers: the 19 without MOL and five MOL-only references are coverage gaps, not negative molecular answers.
+
+Micro-aggregate counts: `P=TP/(TP+FP)`, `R=TP/(TP+FN)`, `F1=2TP/(2TP+FP+FN)`; use P=0 when TP+FP=0. Target recovery `TP/272` equals Recall and does not replace PRF.
+
+For SMILES, use RDKit **2024.03.2**, canonical isomeric output and explicit parser settings `removeHs=False`, `sanitize=True`, `parseName=False`, `allowCXSMILES=False`. Apply no additional salt stripping, charge neutralization, tautomer standardization or stereo repair. Standard InChI nevertheless applies its intrinsic normalization; full Key equality does not establish identical drawn bond orders, hydrogen representation or coordinates.
+
+## Citation
 
 ```bibtex
-@misc{patsnap_patent_page_ocsr_2026,
+@dataset{patsnap_chemical_ocsr_2026,
   title   = {Patent Page Chemical Structure Detection and Recognition Benchmark},
   author  = {PatSnap},
   year    = {2026},
@@ -152,4 +88,6 @@ Use only the PDF bytes or region image as model input; the reference tables are 
 }
 ```
 
-The public dataset and annotations use [CC BY-NC 4.0](data/LICENSE.txt). Code and project documentation use the [MIT License](../LICENSE). Third-party source materials retain their applicable rights and terms; normalization resources include their own notices.
+## License
+
+Data and annotations use [CC BY-NC 4.0](../LICENSE.data). Repository code and documentation use [MIT](../LICENSE). Third-party materials retain their applicable rights, licenses and [source notices](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/normalization/NOTICE.md).

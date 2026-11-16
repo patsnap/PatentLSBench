@@ -1,6 +1,6 @@
 # SAR
 
-[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文** · [评价协议](../docs/evaluation-protocol.zh.md)
+[PatentLSBench](https://github.com/patsnap/PatentLSBench/blob/main/README.zh.md) · [English](README.md) | **简体中文**
 
 SAR 评价从小分子专利中抽取已披露结构—活性证据的能力。
 
