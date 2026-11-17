@@ -24,10 +24,10 @@ PatentLSBench 以专利证据为基础，评测大语言模型与 AI Agent 的�
 
 ## 数据集
 
-Chemical NER 与 Chemical OCSR 在 GitHub 和 Hugging Face 均提供数据，核心记录、参考答案与源附件一致；Hugging Face 另提供 Parquet 视图，各数据集使用独立仓库与版本。SAR、LCA 与 LS Research 提供任务定义。
+Chemical NER 与 Chemical OCSR 在 GitHub 和 Hugging Face 均提供数据，核心记录、参考答案与源附件一致；Hugging Face 另提供 Parquet 视图，各数据集使用独立仓库维护。SAR、LCA 与 LS Research 提供任务定义。
 
-- **Chemical NER v1.2.2：**11个专利公开号、22条完整权利要求或说明书输入、6,334处实体参考提及，涵盖中文、英文、日文和韩文。
-- **Chemical OCSR v1.0.0：**50个单页栅格PDF、536个已标注化学区域、277个MOL参考，以及272对SMILES/InChIKey参考。
+- **Chemical NER V1.0**： 11 个专利公开号、22 条完整权利要求或说明书输入、6,334 处实体参考提及，涵盖中文、英文、日文和韩文。
+- **Chemical OCSR V1.0**： 50 个单页栅格 PDF、536 个已标注化学区域、277 个 MOL 参考，以及 272 对 SMILES/InChIKey 参考。
 
 ## 评价
 

@@ -6,7 +6,7 @@ Chemical NER Bench 提供专利权利要求与说明书，用于**化学实体�
 
 ## 数据集概览
 
-| 项目 | 1.2.2 版 |
+| 项目 | V1.0 |
 | --- | ---: |
 | 专利公开号 | 11 |
 | 完整章节输入 | 22 |
@@ -61,12 +61,12 @@ references = records[0]["ground_truth"]
 print(len(records))  # 22
 ```
 
-Hugging Face 提供 **1.2.2** 版，配置为 `default`，split 为 `test`。使用 `hf auth login` 登录后读取：
+Hugging Face 提供 **V1.0** 版，配置为 `default`，split 为 `test`。使用 `hf auth login` 登录后读取：
 
 ```python
 from datasets import load_dataset
 
-records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="v1.2.2", token=True)
+records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="V1.0", token=True)
 model_inputs = records.select_columns([
     "record_id", "publication_number", "language", "section", "text"
 ])
@@ -91,7 +91,7 @@ model_inputs = records.select_columns([
   title   = {Chemical NER Bench},
   author  = {PatSnap},
   year    = {2026},
-  version = {1.2.2},
+  version = {1.0},
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ner-bench}
 }
 ```

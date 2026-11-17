@@ -24,10 +24,10 @@ PatentLSBench evaluates large language models and AI agents on life-science task
 
 ## Datasets
 
-Chemical NER and Chemical OCSR provide datasets on GitHub and Hugging Face, with the same core records, references and source assets. Hugging Face also provides Parquet views, with each dataset maintained in a separate repository and versioned independently. SAR, LCA and LS Research provide task definitions.
+Chemical NER and Chemical OCSR provide datasets on GitHub and Hugging Face, with the same core records, references and source assets. Hugging Face also provides Parquet views, with each dataset maintained in a separate repository. SAR, LCA and LS Research provide task definitions.
 
-- **Chemical NER v1.2.2:** 11 patent publications, 22 complete claim or description inputs and 6,334 entity reference mentions, covering Chinese, English, Japanese and Korean.
-- **Chemical OCSR v1.0.0:** 50 single-page raster PDFs, 536 annotated chemical regions, 277 MOL references and 272 paired SMILES/InChIKey references.
+- **Chemical NER V1.0:** 11 patent publications, 22 complete claim or description inputs and 6,334 entity reference mentions, covering Chinese, English, Japanese and Korean.
+- **Chemical OCSR V1.0:** 50 single-page raster PDFs, 536 annotated chemical regions, 277 MOL references and 272 paired SMILES/InChIKey references.
 
 ## Evaluation
 

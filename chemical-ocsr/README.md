@@ -2,7 +2,7 @@
 
 [PatentLSBench](../README.md) · **English** | [简体中文](README.zh.md)
 
-Chemical OCSR evaluates molecular recognition from annotated region crops, and chemical-region detection and recognition from single-page patent image PDFs. The **v1.0.0 data release** contains 50 pages from 50 patent publication numbers and is also available on [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench).
+Chemical OCSR evaluates molecular recognition from annotated region crops, and chemical-region detection and recognition from single-page patent image PDFs. The **V1.0 data release** contains 50 pages from 50 patent publication numbers and is also available on [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench).
 
 ## Dataset overview
 
@@ -35,14 +35,14 @@ print(page["id"], len(pdf_bytes), region["region_id"], len(crop_bytes))
 
 Use PDF bytes for the page task or crop bytes for image recognition. `layout_gt` and `ocsr_gt` are evaluator references.
 
-The Hugging Face Parquet view pins data revision `v1.0.0`; `token=True` uses your HF login. Evaluation-profile links below point to the current `main` documentation.
+The Hugging Face Parquet view pins revision `V1.0`; `token=True` uses your HF login. Evaluation-profile links below point to the current `main` documentation.
 
 ```python
 from datasets import load_dataset
 
 regions = load_dataset(
     "PatSnap/chemical-ocsr-bench", "regions", split="test",
-    revision="v1.0.0", token=True,
+    revision="V1.0", token=True,
 )
 print(regions[0]["id"], regions[0]["region_image"].size)
 ```
@@ -64,7 +64,7 @@ Labels retain their Chinese values and support multiple values in nine fields: `
 
 ## Evaluation
 
-**Profile: `region-aligned-v1`.** See the [evaluation rules](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/EVALUATION.md) and [molecular reference rules](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/MOLECULAR_GT_PROTOCOL.md) for details.
+**Evaluation:** See the [evaluation rules](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/EVALUATION.md) and [molecular reference rules](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/MOLECULAR_GT_PROTOCOL.md) for details.
 
 - **Image:** associate each prediction with its input crop. Evaluate molecular recognition; do not pool answers across crops.
 - **PDF:** match boxes one to one at **IoU ≥ 0.5**, first maximizing match count, then total IoU; resolve ties by GT `region_id` and stable prediction order. Fix this assignment before molecular comparison; never rematch using SMILES or Keys. All 536 regions participate in Layout P/R/F1.
@@ -83,7 +83,7 @@ For SMILES, use RDKit **2024.03.2**, canonical isomeric output and explicit pars
   title   = {Patent Page Chemical Structure Detection and Recognition Benchmark},
   author  = {PatSnap},
   year    = {2026},
-  version = {1.0.0},
+  version = {1.0},
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench}
 }
 ```

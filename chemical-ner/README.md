@@ -6,7 +6,7 @@ Chemical NER Bench provides patent claims and descriptions for **chemical entity
 
 ## Dataset overview
 
-| Property | Version 1.2.2 |
+| Property | V1.0 |
 | --- | ---: |
 | Patent publication numbers | 11 |
 | Complete section inputs | 22 |
@@ -61,12 +61,12 @@ references = records[0]["ground_truth"]
 print(len(records))  # 22
 ```
 
-Hugging Face provides version **1.2.2** in the `default` configuration and `test` split. After signing in with `hf auth login`:
+Hugging Face provides version **V1.0** in the `default` configuration and `test` split. After signing in with `hf auth login`:
 
 ```python
 from datasets import load_dataset
 
-records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="v1.2.2", token=True)
+records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="V1.0", token=True)
 model_inputs = records.select_columns([
     "record_id", "publication_number", "language", "section", "text"
 ])
@@ -91,7 +91,7 @@ Dataset and reference annotations: [CC BY-NC 4.0](../LICENSE.data), subject to a
   title   = {Chemical NER Bench},
   author  = {PatSnap},
   year    = {2026},
-  version = {1.2.2},
+  version = {1.0},
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ner-bench}
 }
 ```

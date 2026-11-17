@@ -2,7 +2,7 @@
 
 [PatentLSBench](../README.zh.md) · [English](README.md) | **简体中文**
 
-Chemical OCSR 评价化学区域裁图中的分子识别，以及单页专利图像 PDF 中的化学区域定位与识别。**v1.0.0 数据版本**包含来自50个专利公开号的50页，也可通过 [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/README.zh.md) 获取。
+Chemical OCSR 评价化学区域裁图中的分子识别，以及单页专利图像 PDF 中的化学区域定位与识别。**V1.0 数据版本**包含来自50个专利公开号的50页，也可通过 [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/README.zh.md) 获取。
 
 ## 数据集概览
 
@@ -35,14 +35,14 @@ print(page["id"], len(pdf_bytes), region["region_id"], len(crop_bytes))
 
 整页任务使用PDF字节，图像识别使用裁图字节；`layout_gt` 和 `ocsr_gt` 是评估参考。
 
-Hugging Face 的Parquet视图固定读取数据版本 `v1.0.0`，`token=True` 使用本机HF登录。下方评测配置链接指向当前 `main` 文档。
+Hugging Face 的Parquet视图固定读取数据版本 `V1.0`，`token=True` 使用本机HF登录。下方评测配置链接指向当前 `main` 文档。
 
 ```python
 from datasets import load_dataset
 
 regions = load_dataset(
     "PatSnap/chemical-ocsr-bench", "regions", split="test",
-    revision="v1.0.0", token=True,
+    revision="V1.0", token=True,
 )
 print(regions[0]["id"], regions[0]["region_image"].size)
 ```
@@ -64,11 +64,11 @@ print(regions[0]["id"], regions[0]["region_image"].size)
 
 ## 评价
 
-**评测配置：`region-aligned-v1`。** 细则见[评价规则](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/EVALUATION.zh.md)和[分子参考规则](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/MOLECULAR_GT_PROTOCOL.zh.md)。
+**评价规则**： 细则见[评价规则](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/EVALUATION.zh.md)和[分子参考规则](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/MOLECULAR_GT_PROTOCOL.zh.md)。
 
-- **图像模式：**按输入裁图对应参考，只评分子识别，不能把不同裁图答案汇总后匹配。
-- **PDF模式：**以 **IoU ≥ 0.5** 做一对一匹配，先最大化匹配数，再最大化总IoU；并列时按GT `region_id` 和预测稳定序号确定。固定该对应关系后再比较分子答案，不得按SMILES或Key重配。全部536个区域参加Layout P/R/F1。
-- **分子识别：**规范SMILES与完整标准InChIKey分别报告P/R/F1，各自使用发布的非空参考，目前各272条。每个适用目标最多1个TP；额外、重复、无效或错误的非空候选均为FP，未恢复的适用目标为FN。未匹配PDF框中的分子候选计FP。匹配到无适用参考区域的预测在该分子指标中忽略，仍评价Layout。空输出或拒识保留FN，不虚造FP。
+- **图像模式**： 按输入裁图对应参考，只评分子识别，不能把不同裁图答案汇总后匹配。
+- **PDF模式**： 以 **IoU ≥ 0.5** 做一对一匹配，先最大化匹配数，再最大化总IoU；并列时按GT `region_id` 和预测稳定序号确定。固定该对应关系后再比较分子答案，不得按SMILES或Key重配。全部536个区域参加Layout P/R/F1。
+- **分子识别**： 规范SMILES与完整标准InChIKey分别报告P/R/F1，各自使用发布的非空参考，目前各272条。每个适用目标最多1个TP；额外、重复、无效或错误的非空候选均为FP，未恢复的适用目标为FN。未匹配PDF框中的分子候选计FP。匹配到无适用参考区域的预测在该分子指标中忽略，仍评价Layout。空输出或拒识保留FN，不虚造FP。
 
 非完整结构只评Layout。在296条带“完整结构”标签的区域中，277条有MOL参考，272条有受支持标识符；19条无MOL和5条仅MOL均属于参考覆盖缺口，不是分子识别负例。
 
@@ -83,7 +83,7 @@ SMILES采用 RDKit **2024.03.2** 的规范异构输出，显式设置 `removeHs=
   title   = {Patent Page Chemical Structure Detection and Recognition Benchmark},
   author  = {PatSnap},
   year    = {2026},
-  version = {1.0.0},
+  version = {1.0},
   url     = {https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench}
 }
 ```
