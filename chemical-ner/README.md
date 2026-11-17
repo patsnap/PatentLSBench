@@ -61,12 +61,12 @@ references = records[0]["ground_truth"]
 print(len(records))  # 22
 ```
 
-Hugging Face provides version **V1.0** in the `default` configuration and `test` split. After signing in with `hf auth login`:
+Hugging Face provides version **V1.0** in the `default` configuration and `test` split:
 
 ```python
 from datasets import load_dataset
 
-records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="V1.0", token=True)
+records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="V1.0")
 model_inputs = records.select_columns([
     "record_id", "publication_number", "language", "section", "text"
 ])

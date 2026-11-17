@@ -35,14 +35,14 @@ print(page["id"], len(pdf_bytes), region["region_id"], len(crop_bytes))
 
 整页任务使用PDF字节，图像识别使用裁图字节；`layout_gt` 和 `ocsr_gt` 是评估参考。
 
-Hugging Face 的Parquet视图固定读取数据版本 `V1.0`，`token=True` 使用本机HF登录。下方评测配置链接指向当前 `main` 文档。
+Hugging Face 的Parquet视图固定读取数据版本 `V1.0`。下方评测配置链接指向当前 `main` 文档。
 
 ```python
 from datasets import load_dataset
 
 regions = load_dataset(
     "PatSnap/chemical-ocsr-bench", "regions", split="test",
-    revision="V1.0", token=True,
+    revision="V1.0",
 )
 print(regions[0]["id"], regions[0]["region_image"].size)
 ```

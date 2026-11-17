@@ -61,12 +61,12 @@ references = records[0]["ground_truth"]
 print(len(records))  # 22
 ```
 
-Hugging Face 提供 **V1.0** 版，配置为 `default`，split 为 `test`。使用 `hf auth login` 登录后读取：
+Hugging Face 提供 **V1.0** 版，配置为 `default`，split 为 `test`：
 
 ```python
 from datasets import load_dataset
 
-records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="V1.0", token=True)
+records = load_dataset("PatSnap/chemical-ner-bench", split="test", revision="V1.0")
 model_inputs = records.select_columns([
     "record_id", "publication_number", "language", "section", "text"
 ])

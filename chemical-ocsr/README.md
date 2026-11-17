@@ -35,14 +35,14 @@ print(page["id"], len(pdf_bytes), region["region_id"], len(crop_bytes))
 
 Use PDF bytes for the page task or crop bytes for image recognition. `layout_gt` and `ocsr_gt` are evaluator references.
 
-The Hugging Face Parquet view pins revision `V1.0`; `token=True` uses your HF login. Evaluation-profile links below point to the current `main` documentation.
+The Hugging Face Parquet view pins revision `V1.0`. Evaluation-profile links below point to the current `main` documentation.
 
 ```python
 from datasets import load_dataset
 
 regions = load_dataset(
     "PatSnap/chemical-ocsr-bench", "regions", split="test",
-    revision="V1.0", token=True,
+    revision="V1.0",
 )
 print(regions[0]["id"], regions[0]["region_image"].size)
 ```
