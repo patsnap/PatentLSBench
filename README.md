@@ -47,8 +47,10 @@ PatentLSBench will expand to integrated chemical-information workflows, sequence
 }
 ```
 
-## License
+## License and Disclaimer
 
-Code and project documentation use the [MIT License](LICENSE). Datasets, annotations and accompanying assets use [CC BY-NC 4.0](LICENSE.data), subject to applicable third-party rights and source-specific terms.
+Code and project documentation are licensed under the [MIT License](LICENSE). Datasets, annotations and accompanying assets are released under [CC BY-NC 4.0](LICENSE.data), subject to applicable third-party rights and separate source terms.
+
+PatentLSBench materials and related outputs may contain errors or omissions and do not constitute legal, patent, medical or regulatory advice or professional certification. Users must review and validate them before relying on them, ensure they have the necessary rights to process materials, and comply with applicable licenses and access terms; see the [full disclaimer](DISCLAIMER.md).
 
 Copyright (c) 2026 PatSnap.

@@ -88,6 +88,8 @@ For SMILES, use RDKit **2024.03.2**, canonical isomeric output and explicit pars
 }
 ```
 
-## License
+## License and Disclaimer
 
-Data and annotations use [CC BY-NC 4.0](../LICENSE.data). Repository code and documentation use [MIT](../LICENSE). Third-party materials retain their applicable rights, licenses and [source notices](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/normalization/NOTICE.md).
+Code and project documentation use the [MIT License](../LICENSE). This dataset, its annotations and accompanying assets use [CC BY-NC 4.0](../LICENSE.data). Third-party materials retain their applicable rights and separate terms and [source notices](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/normalization/NOTICE.md).
+
+The dataset and related outputs may contain errors or omissions and do not constitute legal, patent, medical or regulatory advice or professional certification. Review and validate them before relying on them; see the [full disclaimer](../DISCLAIMER.md).

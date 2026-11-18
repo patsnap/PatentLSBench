@@ -88,6 +88,8 @@ SMILES采用 RDKit **2024.03.2** 的规范异构输出，显式设置 `removeHs=
 }
 ```
 
-## 许可
+## 许可证与免责声明
 
-数据与标注采用 [CC BY-NC 4.0](../LICENSE.data)，仓库代码与项目文档采用 [MIT](../LICENSE)。第三方材料保留适用权利、许可及[来源声明](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/normalization/NOTICE.md)。
+代码和项目文档采用 [MIT 许可证](../LICENSE)。本数据集、标注及配套附件采用 [CC BY-NC 4.0](../LICENSE.data)。第三方材料保留其适用权利和单独条款，并附有[来源声明](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/public-50-pages/normalization/NOTICE.md)。
+
+数据集及相关输出可能存在错误或遗漏，不构成法律、专利、医疗或监管意见，也不构成专业认证。在依赖这些材料前，应进行审查与验证；详见[完整免责声明](../DISCLAIMER.zh.md)。

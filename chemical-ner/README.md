@@ -80,9 +80,11 @@ Report entity-recognition and structure-normalization precision, recall and F1 s
 
 Three inputs have empty entity-reference lists; these are **not certified chemical-free negative examples**. Among the 6,334 reference mentions, **268 have both structure fields empty** and **50 have SMILES without an InChIKey**. Nonempty identifiers do not guarantee that the supplied SMILES and Key are equivalent or that a particular RDKit version reproduces the Key. Declare the chosen structure field and its eligible population; unavailable structure references do not remove mentions from applicable entity-recognition evaluation.
 
-## License
+## License and Disclaimer
 
-Dataset and reference annotations: [CC BY-NC 4.0](../LICENSE.data), subject to applicable third-party rights. Project code and documentation: [MIT](../LICENSE).
+Code and project documentation use the [MIT License](../LICENSE). This dataset, its annotations and accompanying assets use [CC BY-NC 4.0](../LICENSE.data). Third-party materials retain their applicable rights and separate terms.
+
+The dataset and related outputs may contain errors or omissions and do not constitute legal, patent, medical or regulatory advice or professional certification. Review and validate them before relying on them; see the [full disclaimer](../DISCLAIMER.md).
 
 ## Citation
 
