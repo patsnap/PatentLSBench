@@ -14,10 +14,13 @@ PatentLSBench evaluates large language models and AI agents on life-science task
 
 ## Evaluation tasks
 
-| Task | Input | Output | Resources |
+| Task | Input | Output | Release and resources |
 | --- | --- | --- | --- |
-| [Chemical NER](chemical-ner/README.md) | Patent claims or description text | Chemical entities and associated molecular structures | [Test data](chemical-ner/data/test.jsonl) |
-| [Chemical OCSR](chemical-ocsr/README.md) | Chemical structure image or single-page PDF | Molecular structures; PDF mode also includes chemical-region boxes | [Test data](chemical-ocsr/data/test.jsonl) |
+| [Chemical NER](chemical-ner/README.md) | Patent claims or description text | Chemical entities and associated molecular structures | Released · [Test data](chemical-ner/data/test.jsonl) |
+| [Chemical OCSR](chemical-ocsr/README.md) | Chemical structure image or single-page PDF | Molecular structures; PDF mode also includes chemical-region boxes | Released · [Test data](chemical-ocsr/data/test.jsonl) |
+| [LCA](lca/) | Patent number or drug code | Candidate molecules, related patents and supporting evidence | Planned: end of December 2026 |
+| [SAR](sar/) | Small-molecule patent materials | Activity records linked to molecular structures, experimental context and source locations | Planned: end of December 2026 |
+| [LS Research](ls-research/) | Research question | Answer or report with source citations | Planned: end of December 2026 |
 
 ## Datasets
 
@@ -26,13 +29,23 @@ Chemical NER and Chemical OCSR provide datasets on GitHub and Hugging Face, with
 - **Chemical NER V1.0:** 11 patent publications, 22 complete claim or description inputs and 6,334 entity reference mentions, covering Chinese, English, Japanese and Korean.
 - **Chemical OCSR V1.0:** 50 single-page raster PDFs, 536 annotated chemical regions, 277 MOL references and 272 paired SMILES/InChIKey references.
 
+Molecular recognition evaluation in the current OCSR release is limited to complete chemical structures with applicable reference identifiers. Layout evaluation also covers noncomplete structures.
+
 ## Evaluation
 
 Task READMEs describe the inputs, outputs and evaluation criteria. Reports identify the evaluated system, dataset and reference versions, matching or rubric criteria, evaluation units, coverage and limitations. Comparisons within model or agent tracks use consistent task materials, evidence scope, information cutoff, permitted tools and execution budgets. Scores are reported separately for each task; PatentLSBench defines no cross-task overall score.
 
-## Capability expansion
+## Planned releases
 
-Upcoming datasets: [SAR](sar/), [LCA](lca/) and [LS Research](ls-research/).
+| Planned date | Release |
+| --- | --- |
+| End of December 2026 | Open-source release of the LCA, SAR and LS Research datasets |
+| End of December 2026 | Publication of a technical report or paper |
+| End of December 2026 | OCSR recognition evaluation for fragments and Markush cores |
+| End of December 2026 | Release of manually reviewed OCSR classification labels |
+| End of March 2027 | OCSR evaluation for more complete Markush structure recognition, including explicit R-group definitions, linkage paths and constraints |
+
+## Capability expansion
 
 PatentLSBench will expand to integrated chemical-information workflows, sequence and modification profiling, macromolecule sequence–activity evidence, competitive landscape and asset comparison, and agent execution behavior.
 

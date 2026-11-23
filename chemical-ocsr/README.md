@@ -4,6 +4,17 @@
 
 Chemical OCSR evaluates molecular recognition from annotated region crops, and chemical-region detection and recognition from single-page patent image PDFs. The **V1.0 data release** contains 50 pages from 50 patent publication numbers and is also available on [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench).
 
+## Recognition scope and roadmap
+
+Molecular recognition evaluation in the current release is limited to complete chemical structures with applicable reference identifiers. Fragments and Markush cores are currently evaluated only for Layout.
+
+| Planned release | Recognition evaluation |
+| --- | --- |
+| End of December 2026 | Fragments and Markush cores |
+| End of March 2027 | More complete Markush structures, including explicit R-group definitions, linkage paths and constraints |
+
+Manually reviewed classification labels are planned for release at the end of December 2026.
+
 ## Dataset overview
 
 | Resource | Count |
@@ -55,12 +66,10 @@ print(regions[0]["id"], regions[0]["region_image"].size)
 | `pdf_path`, `preview_image` | PDF input and preview paths |
 | `coordinate_reference_size` | Annotation-raster `[width, height]` |
 | `layout_count`, `ocsr_count` | Region count and original-MOL-reference count, not identifier-scoring denominators |
-| `layout_gt` | `region_id`, normalized `bbox`, crop `image`, and `labels` |
+| `layout_gt` | `region_id`, normalized `bbox` and crop `image` |
 | `ocsr_gt` | `region_id`, `molfile`, nullable `smiles` and `inchikey`; joined to Layout by `region_id` |
 
 Boxes are `[x1,y1,x2,y2]` in `[0,1]` with a top-left origin. Normalize predictions against an aligned rendering of the supplied page.
-
-Labels retain their Chinese values and support multiple values in nine fields: `type`, `chemical_family`, `component_features`, `atom_bond_features`, `stereo_features`, `notation_features`, `topology_features`, `scene`, `image_defects`. `[]` means assessed with no listed feature; `null` means unavailable.
 
 ## Evaluation
 
@@ -70,7 +79,7 @@ Labels retain their Chinese values and support multiple values in nine fields: `
 - **PDF:** match boxes one to one at **IoU ≥ 0.5**, first maximizing match count, then total IoU; resolve ties by GT `region_id` and stable prediction order. Fix this assignment before molecular comparison; never rematch using SMILES or Keys. All 536 regions participate in Layout P/R/F1.
 - **Molecular:** report canonical-SMILES and full standard-InChIKey P/R/F1 separately. Each uses its published non-null reference population, currently 272. One eligible target can yield at most one TP. Every additional, duplicate, invalid or incorrect nonempty candidate is FP; an unrecovered eligible target is FN. Molecular candidates in unmatched PDF boxes are FP. Predictions matched to regions without an applicable reference are ignored for that molecular metric, while Layout still applies. Empty output or refusal leaves FN without inventing an FP.
 
-Noncomplete structures are evaluated only for Layout. Among 296 regions tagged complete, 277 have MOL references and 272 have supported identifiers: the 19 without MOL and five MOL-only references are coverage gaps, not negative molecular answers.
+Noncomplete structures are evaluated only for Layout. Molecular scoring uses each field's fixed reference list. The dataset provides 277 MOL references and 272 paired supported identifiers; the five MOL-only references are unscored for the corresponding identifier metrics and are not molecular negatives.
 
 Micro-aggregate counts: `P=TP/(TP+FP)`, `R=TP/(TP+FN)`, `F1=2TP/(2TP+FP+FN)`; use P=0 when TP+FP=0. Target recovery `TP/272` equals Recall and does not replace PRF.
 

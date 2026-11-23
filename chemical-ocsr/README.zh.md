@@ -4,6 +4,17 @@
 
 Chemical OCSR 评价化学区域裁图中的分子识别，以及单页专利图像 PDF 中的化学区域定位与识别。**V1.0 数据版本**包含来自50个专利公开号的50页，也可通过 [Hugging Face](https://huggingface.co/datasets/PatSnap/chemical-ocsr-bench/blob/main/README.zh.md) 获取。
 
+## 识别评测范围与计划
+
+当前版本的分子识别评测仅覆盖具有适用参考标识符的完整化学结构；片段与 Markush 主核目前仅参与 Layout 评测。
+
+| 计划上线时间 | 识别评测范围 |
+| --- | --- |
+| 2026 年 12 月底 | 片段与 Markush 主核 |
+| 2027 年 3 月底 | 更完整的 Markush 结构，包含 R 基团具体定义、链接路径及约束关系 |
+
+人工审核的分类标签计划于 2026 年 12 月底上线。
+
 ## 数据集概览
 
 | 资源 | 数量 |
@@ -55,12 +66,10 @@ print(regions[0]["id"], regions[0]["region_image"].size)
 | `pdf_path`, `preview_image` | PDF输入与预览路径 |
 | `coordinate_reference_size` | 原标注栅格的 `[宽,高]` |
 | `layout_count`, `ocsr_count` | 区域数与原始MOL参考数，不能代替标识符计分分母 |
-| `layout_gt` | `region_id`、归一化 `bbox`、裁图 `image` 和 `labels` |
+| `layout_gt` | `region_id`、归一化 `bbox` 和裁图 `image` |
 | `ocsr_gt` | `region_id`、`molfile`、可空 `smiles` 和 `inchikey`，通过 `region_id` 关联定位参考 |
 
 框为左上角原点、范围 `[0,1]` 的 `[x1,y1,x2,y2]`。预测须按与交付页面对齐的渲染结果归一化。
-
-标签保留中文原值，九维均支持多选：`type`、`chemical_family`、`component_features`、`atom_bond_features`、`stereo_features`、`notation_features`、`topology_features`、`scene`、`image_defects`。`[]` 表示已评估但未命中词表特征，`null` 表示不可用。
 
 ## 评价
 
@@ -70,7 +79,7 @@ print(regions[0]["id"], regions[0]["region_image"].size)
 - **PDF模式**： 以 **IoU ≥ 0.5** 做一对一匹配，先最大化匹配数，再最大化总IoU；并列时按GT `region_id` 和预测稳定序号确定。固定该对应关系后再比较分子答案，不得按SMILES或Key重配。全部536个区域参加Layout P/R/F1。
 - **分子识别**： 规范SMILES与完整标准InChIKey分别报告P/R/F1，各自使用发布的非空参考，目前各272条。每个适用目标最多1个TP；额外、重复、无效或错误的非空候选均为FP，未恢复的适用目标为FN。未匹配PDF框中的分子候选计FP。匹配到无适用参考区域的预测在该分子指标中忽略，仍评价Layout。空输出或拒识保留FN，不虚造FP。
 
-非完整结构只评Layout。在296条带“完整结构”标签的区域中，277条有MOL参考，272条有受支持标识符；19条无MOL和5条仅MOL均属于参考覆盖缺口，不是分子识别负例。
+非完整结构仅评 Layout。分子计分使用各字段的固定参考名单。数据集提供 277 条 MOL 参考与 272 对受支持标识符；5 条仅有 MOL 的参考不参加相应标识符计分，不能作为分子识别负例。
 
 微汇总计数后计算：`P=TP/(TP+FP)`、`R=TP/(TP+FN)`、`F1=2TP/(2TP+FP+FN)`；TP+FP=0时P取0。目标恢复率 `TP/272` 等于Recall，不能替代PRF。
 

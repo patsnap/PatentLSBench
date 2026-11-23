@@ -14,10 +14,13 @@ PatentLSBench 以专利证据为基础，评测大语言模型与 AI Agent 的�
 
 ## 评测任务
 
-| 任务 | 输入 | 交付 | 资源 |
+| 任务 | 输入 | 交付 | 发布与资源 |
 | --- | --- | --- | --- |
-| [Chemical NER](chemical-ner/README.zh.md) | 专利权利要求或说明书文本 | 化学实体及关联分子结构 | [测试数据](chemical-ner/data/test.jsonl) |
-| [Chemical OCSR](chemical-ocsr/README.zh.md) | 化学结构图像或单页 PDF | 分子结构；PDF 模式另含化学结构区域框 | [测试数据](chemical-ocsr/data/test.jsonl) |
+| [Chemical NER](chemical-ner/README.zh.md) | 专利权利要求或说明书文本 | 化学实体及关联分子结构 | 已发布 · [测试数据](chemical-ner/data/test.jsonl) |
+| [Chemical OCSR](chemical-ocsr/README.zh.md) | 化学结构图像或单页 PDF | 分子结构；PDF 模式另含化学结构区域框 | 已发布 · [测试数据](chemical-ocsr/data/test.jsonl) |
+| [LCA](lca/) | 专利号或药物代号 | 候选分子、相关专利与支持证据 | 计划于 2026 年 12 月底开源 |
+| [SAR](sar/) | 小分子专利材料 | 关联分子结构、实验上下文与来源位置的活性记录 | 计划于 2026 年 12 月底开源 |
+| [LS Research](ls-research/) | 研究问题 | 完整回答或报告及来源引用 | 计划于 2026 年 12 月底开源 |
 
 ## 数据集
 
@@ -26,13 +29,23 @@ Chemical NER 与 Chemical OCSR 在 GitHub 和 Hugging Face 均提供数据，核
 - **Chemical NER V1.0**： 11 个专利公开号、22 条完整权利要求或说明书输入、6,334 处实体参考提及，涵盖中文、英文、日文和韩文。
 - **Chemical OCSR V1.0**： 50 个单页栅格 PDF、536 个已标注化学区域、277 个 MOL 参考，以及 272 对 SMILES/InChIKey 参考。
 
+当前 OCSR 的分子识别评测仅覆盖具有适用参考标识符的完整化学结构；Layout 评测同时覆盖非完整结构。
+
 ## 评价
 
 各任务README说明输入、输出与评价口径。报告明确被评系统、数据集与参考版本、匹配或评分量规标准、评价单位、覆盖范围与局限。同类模型或Agent组内比较采用一致的任务材料、证据范围、信息截止时点、可用工具与执行预算。各任务分项报告成绩，PatentLSBench不合成跨任务总分。
 
-## 能力扩展
+## 发布计划
 
-后续数据集：[SAR](sar/)、[LCA](lca/)、[LS Research](ls-research/)。
+| 计划时间 | 发布内容 |
+| --- | --- |
+| 2026 年 12 月底 | 开源 LCA、SAR 与 LS Research 数据集 |
+| 2026 年 12 月底 | 公布技术报告或论文 |
+| 2026 年 12 月底 | 上线片段与 Markush 主核的 OCSR 识别评测 |
+| 2026 年 12 月底 | 上线 OCSR 人工审核的分类标签 |
+| 2027 年 3 月底 | 上线更完整的 Markush 结构识别评测，包含 R 基团具体定义、链接路径及约束关系 |
+
+## 能力扩展
 
 PatentLSBench 将持续扩展化学信息联合交付、序列与修饰档案、大分子序列—活性证据整理、竞争格局与资产对标，并逐步纳入 Agent 执行行为评价。
 
